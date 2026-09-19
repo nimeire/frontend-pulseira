@@ -1,11 +1,11 @@
-import type { ComponentType } from 'react';
-import type { IconProps } from '../icons';
+import type { IconComponent } from '../icons';
+import { classNames } from '../../utils/classNames';
 import styles from './FeatureCard.module.css';
 
 export type FeatureCardTone = 'primary' | 'success';
 
 interface FeatureCardProps {
-  icon: ComponentType<IconProps>;
+  icon: IconComponent;
   title: string;
   description: string;
   tone?: FeatureCardTone;
@@ -17,10 +17,10 @@ export function FeatureCard({
   description,
   tone = 'primary',
 }: FeatureCardProps) {
-  const iconWrapperClass = [
+  const iconWrapperClass = classNames(
     styles.iconWrapper,
     tone === 'success' ? styles.success : styles.primary,
-  ].join(' ');
+  );
 
   return (
     <li className={styles.card}>

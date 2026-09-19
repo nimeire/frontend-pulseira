@@ -1,4 +1,5 @@
 import { forwardRef, type ButtonHTMLAttributes } from 'react';
+import { classNames } from '../../utils/classNames';
 import styles from './Button.module.css';
 
 export type ButtonVariant =
@@ -14,9 +15,7 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   function Button({ variant = 'primary', className, ...rest }, ref) {
-    const classes = [styles.button, styles[variant], className]
-      .filter(Boolean)
-      .join(' ');
+    const classes = classNames(styles.button, styles[variant], className);
 
     return <button ref={ref} type="button" className={classes} {...rest} />;
   },

@@ -1,0 +1,7 @@
+.section {
+  padding-block: var(--space-8) var(--space-9);
+}
+
+.compact {
+  padding-block: var(--space-6) var(--space-9);
+}

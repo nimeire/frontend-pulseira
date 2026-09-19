@@ -1,15 +1,14 @@
-import { SectionHeader } from '../../../components/section-header/SectionHeader';
+import { ContentSection } from '../../../components/content-section/ContentSection';
 import { SensorCard } from '../../../components/sensor-card/SensorCard';
 import { sensorDetails } from '../../../data/sensorDetails';
 import styles from './SensorCardsSection.module.css';
 
 export function SensorCardsSection() {
   return (
-    <section
-      className={styles.section}
-      aria-labelledby="sensor-cards-title"
+    <ContentSection
+      titleId="sensor-cards-title"
+      title="Os componentes, um a um"
     >
-      <SectionHeader id="sensor-cards-title" title="Os componentes, um a um" />
       <ul className={styles.grid}>
         {sensorDetails.map((sensor) => (
           <SensorCard
@@ -25,6 +24,6 @@ export function SensorCardsSection() {
           />
         ))}
       </ul>
-    </section>
+    </ContentSection>
   );
 }

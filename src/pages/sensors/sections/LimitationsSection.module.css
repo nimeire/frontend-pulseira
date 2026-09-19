@@ -1,7 +1,0 @@
-.notice {
-  font-size: var(--font-size-sm);
-  color: var(--color-text-muted);
-  border-left: 3px solid var(--color-border-strong);
-  padding-left: var(--space-4);
-  max-width: 70ch;
-}

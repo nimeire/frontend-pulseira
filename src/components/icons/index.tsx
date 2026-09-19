@@ -1,6 +1,9 @@
-import type { SVGProps } from 'react';
+import type { ComponentType, SVGProps } from 'react';
 
 export type IconProps = SVGProps<SVGSVGElement>;
+
+/** Any of the icon components below, for props/data that hold an icon. */
+export type IconComponent = ComponentType<IconProps>;
 
 const baseProps: IconProps = {
   width: 20,

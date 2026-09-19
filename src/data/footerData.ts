@@ -3,8 +3,8 @@
  * out later without touching the Footer component.
  *
  * `creators` is also the single source of truth for the team's contact
- * details, reused by the Contact page (/contato) — the GitHub link only
- * lives here.
+ * details. The Footer and the Contact page (/contato) consume it through
+ * `backendCreators` / `otherCreators`; the GitHub link only lives here.
  */
 
 import caioPhoto from '../assets/images/team/caio.avif';
@@ -13,7 +13,7 @@ import joaoPhoto from '../assets/images/team/joao.avif';
 import milenaPhoto from '../assets/images/team/milena.avif';
 import nicollyPhoto from '../assets/images/team/nicolly.avif';
 
-export interface FooterLink {
+interface FooterLink {
   label: string;
   href: string;
 }
@@ -33,7 +33,7 @@ export interface Creator {
   photoUrl?: string;
 }
 
-export const creators: Creator[] = [
+const creators: Creator[] = [
   {
     name: 'Caio Edimar Santos Silva',
     role: 'Backend',

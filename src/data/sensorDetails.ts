@@ -1,12 +1,11 @@
-import { ChipIcon, LocationPinIcon, MotionIcon, type IconProps } from '../components/icons';
-import type { ComponentType } from 'react';
+import { ChipIcon, LocationPinIcon, MotionIcon, type IconComponent } from '../components/icons';
 import esp32Image from '../assets/images/hardware/ESP32.avif';
 import gpsImage from '../assets/images/hardware/GPS-NEO-6M.avif';
 import mpu6050Image from '../assets/images/hardware/MPU6050.avif';
 
 export interface SensorDetail {
   id: string;
-  icon: ComponentType<IconProps>;
+  icon: IconComponent;
   name: string;
   role: string;
   image: string;

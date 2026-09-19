@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react';
+import { classNames } from '../../utils/classNames';
 import styles from './SectionHeader.module.css';
 
 interface SectionHeaderProps {
@@ -18,9 +19,10 @@ export function SectionHeader({
   align = 'left',
   id,
 }: SectionHeaderProps) {
-  const classes = [styles.header, align === 'center' ? styles.center : '']
-    .filter(Boolean)
-    .join(' ');
+  const classes = classNames(
+    styles.header,
+    align === 'center' && styles.center,
+  );
 
   return (
     <div className={classes}>

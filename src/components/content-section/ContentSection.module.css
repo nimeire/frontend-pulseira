@@ -1,12 +1,23 @@
 .section {
-  padding-block: var(--space-8);
-  border-top: 1px solid var(--color-border);
   display: flex;
   flex-direction: column;
+  padding-block: var(--space-8);
+  border-top: 1px solid var(--color-border);
+}
+
+.gapMd {
   gap: var(--space-4);
 }
 
-.body {
+.gapLg {
+  gap: var(--space-6);
+}
+
+.last {
+  padding-block: var(--space-8) var(--space-9);
+}
+
+.text {
   font-size: var(--font-size-md);
   line-height: var(--line-height-relaxed);
   color: var(--color-text-muted);

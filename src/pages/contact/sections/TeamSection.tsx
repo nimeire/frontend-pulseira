@@ -1,4 +1,4 @@
-import { SectionHeader } from '../../../components/section-header/SectionHeader';
+import { ContentSection } from '../../../components/content-section/ContentSection';
 import { TeamMemberCard } from '../../../components/team-member-card/TeamMemberCard';
 import { backendCreators, otherCreators } from '../../../data/footerData';
 import styles from './TeamSection.module.css';
@@ -8,13 +8,17 @@ const orderedCreators = [...backendCreators, ...otherCreators];
 
 export function TeamSection() {
   return (
-    <section className={styles.section} aria-labelledby="team-title">
-      <SectionHeader id="team-title" title="Desenvolvedores" align="center" />
+    <ContentSection
+      titleId="team-title"
+      title="Desenvolvedores"
+      titleAlign="center"
+      isLast
+    >
       <ul className={styles.grid}>
         {orderedCreators.map((creator) => (
           <TeamMemberCard key={creator.githubUrl} {...creator} />
         ))}
       </ul>
-    </section>
+    </ContentSection>
   );
 }

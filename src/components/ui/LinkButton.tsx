@@ -1,4 +1,5 @@
 import { Link, type LinkProps } from 'react-router-dom';
+import { classNames } from '../../utils/classNames';
 import buttonStyles from './Button.module.css';
 import type { ButtonVariant } from './Button';
 
@@ -11,9 +12,11 @@ export function LinkButton({
   className,
   ...rest
 }: LinkButtonProps) {
-  const classes = [buttonStyles.button, buttonStyles[variant], className]
-    .filter(Boolean)
-    .join(' ');
+  const classes = classNames(
+    buttonStyles.button,
+    buttonStyles[variant],
+    className,
+  );
 
   return <Link className={classes} {...rest} />;
 }

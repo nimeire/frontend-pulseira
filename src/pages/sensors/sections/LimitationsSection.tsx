@@ -1,20 +1,19 @@
-import { SectionHeader } from '../../../components/section-header/SectionHeader';
-import textStyles from './TextSection.module.css';
-import styles from './LimitationsSection.module.css';
+import { ContentSection } from '../../../components/content-section/ContentSection';
+import { Notice } from '../../../components/notice/Notice';
 
 export function LimitationsSection() {
   return (
-    <section
-      className={textStyles.section}
-      aria-labelledby="limitations-title"
+    <ContentSection
+      titleId="limitations-title"
+      title="Limitações e transparência"
+      gap="md"
     >
-      <SectionHeader id="limitations-title" title="Limitações e transparência" />
-      <p className={styles.notice}>
+      <Notice>
         Este é um sistema em fase de prova de conceito. A detecção de
         quedas pode gerar falsos positivos (alertas sem queda real) ou
         falsos negativos (uma queda não identificada). Estamos
         transparentes sobre essas limitações enquanto o projeto evolui.
-      </p>
-    </section>
+      </Notice>
+    </ContentSection>
   );
 }

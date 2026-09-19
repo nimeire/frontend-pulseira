@@ -7,13 +7,12 @@ import {
   LocationPinIcon,
   ShieldIcon,
   WristbandIcon,
-  type IconProps,
+  type IconComponent,
 } from '../components/icons';
 import type { FeatureCardTone } from '../components/feature-card/FeatureCard';
-import type { ComponentType } from 'react';
 
 export interface Benefit {
-  icon: ComponentType<IconProps>;
+  icon: IconComponent;
   title: string;
   description: string;
   tone?: FeatureCardTone;

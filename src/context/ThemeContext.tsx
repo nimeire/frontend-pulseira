@@ -34,17 +34,13 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     window.localStorage.setItem(STORAGE_KEY, theme);
   }, [theme]);
 
-  const setTheme = useCallback((next: Theme) => {
-    setThemeState(next);
-  }, []);
-
   const toggleTheme = useCallback(() => {
     setThemeState((current) => (current === 'light' ? 'dark' : 'light'));
   }, []);
 
   const value = useMemo(
-    () => ({ theme, toggleTheme, setTheme }),
-    [theme, toggleTheme, setTheme],
+    () => ({ theme, toggleTheme }),
+    [theme, toggleTheme],
   );
 
   return (

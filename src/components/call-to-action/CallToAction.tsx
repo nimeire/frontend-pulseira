@@ -7,7 +7,7 @@ interface LinkAction {
   to: string;
 }
 
-interface CallToActionProps {
+export interface CallToActionProps {
   title: string;
   description?: string;
   primaryAction: LinkAction;

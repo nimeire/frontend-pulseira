@@ -1,16 +1,11 @@
-import { SectionHeader } from '../../../components/section-header/SectionHeader';
+import { ContentSection } from '../../../components/content-section/ContentSection';
 import { FeatureCard } from '../../../components/feature-card/FeatureCard';
 import { profiles, targetGroups } from '../../../data/audiences';
 import styles from './WhoItsForSection.module.css';
 
 export function WhoItsForSection() {
   return (
-    <section
-      className={styles.section}
-      aria-labelledby="who-its-for-title"
-    >
-      <SectionHeader id="who-its-for-title" title="Para quem é" />
-
+    <ContentSection titleId="who-its-for-title" title="Para quem é">
       <ul className={styles.tags}>
         {targetGroups.map((group) => {
           const Icon = group.icon;
@@ -34,6 +29,6 @@ export function WhoItsForSection() {
           />
         ))}
       </ul>
-    </section>
+    </ContentSection>
   );
 }

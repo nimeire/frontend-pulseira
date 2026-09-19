@@ -1,4 +1,4 @@
-export interface TermoGlossario {
+interface TermoGlossario {
   termo: string;
   definicao: string;
 }

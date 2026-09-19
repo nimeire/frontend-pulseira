@@ -1,10 +1,11 @@
 import { useId, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ChevronDownIcon } from '../icons';
+import { classNames } from '../../utils/classNames';
 import { getScrollBehavior } from '../../utils/scroll';
 import styles from './TableOfContents.module.css';
 
-export interface TocItem {
+interface TocItem {
   id: string;
   label: string;
 }
@@ -34,10 +35,6 @@ export function TableOfContents({
       ?.scrollIntoView({ block: 'start', behavior: getScrollBehavior() });
   };
 
-  const listClass = [styles.list, isOpen ? styles.open : '']
-    .filter(Boolean)
-    .join(' ');
-
   return (
     <nav className={styles.toc} aria-label={ariaLabel}>
       <button
@@ -54,17 +51,13 @@ export function TableOfContents({
       </button>
       <p className={styles.heading}>{title}</p>
 
-      <ol id={listId} className={listClass}>
+      <ol id={listId} className={classNames(styles.list, isOpen && styles.open)}>
         {items.map((item, index) => {
           const isActive = item.id === activeId;
-          const linkClass = [styles.link, isActive ? styles.active : '']
-            .filter(Boolean)
-            .join(' ');
-
           return (
             <li key={item.id}>
               <Link
-                className={linkClass}
+                className={classNames(styles.link, isActive && styles.active)}
                 to={`#${item.id}`}
                 aria-current={isActive ? 'location' : undefined}
                 onClick={() => handleLinkClick(item.id)}

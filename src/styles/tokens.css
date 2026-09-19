@@ -65,7 +65,6 @@
   --transition-base: var(--duration-base) ease;
 
   --z-header: 100;
-  --z-mobile-menu: 90;
   --z-floating: 80;
 
   color-scheme: light;
@@ -108,8 +107,7 @@
   color-scheme: dark;
 
   /* Same hues, luminance adjusted so each pairing keeps WCAG AA contrast
-     against the Grafite page background (see tokens.css comments in the
-     project's design notes for the contrast ratios behind each value). */
+     against the Grafite page background (ratios noted beside each value). */
 
   --color-primary: #aababd; /* petróleo 35% + areia 65% — 6.8:1 on grafite */
   --color-primary-hover: #c0cbcc; /* petróleo 25% + areia 75% */

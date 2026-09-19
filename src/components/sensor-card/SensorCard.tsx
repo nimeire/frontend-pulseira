@@ -1,12 +1,11 @@
-import type { ComponentType } from 'react';
-import type { IconProps } from '../icons';
+import type { IconComponent } from '../icons';
 import styles from './SensorCard.module.css';
 
 const IMAGE_WIDTH = 750;
 const IMAGE_HEIGHT = 833;
 
 interface SensorCardProps {
-  icon: ComponentType<IconProps>;
+  icon: IconComponent;
   name: string;
   role: string;
   image: string;

@@ -1,26 +1,28 @@
 import { siteConfig } from '../../../data/siteConfig';
-import { SectionHeader } from '../../../components/section-header/SectionHeader';
-import textStyles from './TextSection.module.css';
-import styles from './DevelopmentSection.module.css';
+import {
+  ContentSection,
+  SectionText,
+} from '../../../components/content-section/ContentSection';
+import { Notice } from '../../../components/notice/Notice';
 
 export function DevelopmentSection() {
   return (
-    <section
-      className={textStyles.section}
-      aria-labelledby="development-title"
+    <ContentSection
+      titleId="development-title"
+      title="Sobre o desenvolvimento"
+      gap="md"
     >
-      <SectionHeader id="development-title" title="Sobre o desenvolvimento" />
-      <p className={textStyles.body}>
+      <SectionText>
         O {siteConfig.name} é uma prova de conceito desenvolvida como
         projeto interdisciplinar do curso de Desenvolvimento de Software
         Multiplataforma da FATEC Praia Grande, integrando hardware,
         back-end, banco de dados e front-end.
-      </p>
-      <p className={styles.notice}>
+      </SectionText>
+      <Notice>
         Este projeto é um protótipo acadêmico e não é um equipamento
         médico certificado. Ele não substitui supervisão profissional nem
         cuidados de saúde formais.
-      </p>
-    </section>
+      </Notice>
+    </ContentSection>
   );
 }

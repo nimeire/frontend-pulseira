@@ -9,6 +9,10 @@
   text-align: center;
 }
 
+.tight {
+  padding-block: var(--space-9) var(--space-7);
+}
+
 .eyebrow {
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-semibold);

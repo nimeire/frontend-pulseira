@@ -3,12 +3,11 @@ import {
   LocationPinIcon,
   ShieldIcon,
   WristbandIcon,
-  type IconProps,
+  type IconComponent,
 } from '../components/icons';
-import type { ComponentType } from 'react';
 
 export interface TargetGroup {
-  icon: ComponentType<IconProps>;
+  icon: IconComponent;
   label: string;
 }
 
@@ -22,7 +21,7 @@ export const targetGroups: TargetGroup[] = [
 ];
 
 export interface ProfileCard {
-  icon: ComponentType<IconProps>;
+  icon: IconComponent;
   title: string;
   description: string;
 }

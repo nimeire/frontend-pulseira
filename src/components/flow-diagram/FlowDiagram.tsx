@@ -1,11 +1,11 @@
-import type { ComponentType } from 'react';
-import { ArrowRightIcon, type IconProps } from '../icons';
+import { ArrowRightIcon, type IconComponent } from '../icons';
+import { classNames } from '../../utils/classNames';
 import styles from './FlowDiagram.module.css';
 
-export type FlowTone = 'primary' | 'alert';
+type FlowTone = 'primary' | 'alert';
 
 export interface FlowStage {
-  icon: ComponentType<IconProps>;
+  icon: IconComponent;
   label: string;
   tone?: FlowTone;
 }
@@ -21,10 +21,10 @@ export function FlowDiagram({ stages, ariaLabel }: FlowDiagramProps) {
       {stages.map((stage, index) => {
         const Icon = stage.icon;
         const isLast = index === stages.length - 1;
-        const stageClass = [
+        const stageClass = classNames(
           styles.stage,
           stage.tone === 'alert' ? styles.alert : styles.primary,
-        ].join(' ');
+        );
 
         return (
           <li key={stage.label} className={styles.item}>
