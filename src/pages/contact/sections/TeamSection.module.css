@@ -1,0 +1,38 @@
+.section {
+  padding-block: var(--space-8) var(--space-9);
+  border-top: 1px solid var(--color-border);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+/* 3 cards on the first row, 2 centered on the second. */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: var(--space-5);
+}
+
+.grid > li {
+  grid-column: span 2;
+}
+
+.grid > li:nth-child(4) {
+  grid-column: 2 / span 2;
+}
+
+.grid > li:nth-child(5) {
+  grid-column: 4 / span 2;
+}
+
+@media (max-width: 639px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .grid > li,
+  .grid > li:nth-child(4),
+  .grid > li:nth-child(5) {
+    grid-column: auto;
+  }
+}

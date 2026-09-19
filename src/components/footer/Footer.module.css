@@ -1,0 +1,131 @@
+.footer {
+  flex: 0 0 auto;
+  min-height: var(--footer-min-height);
+  display: flex;
+  align-items: center;
+  background: var(--color-surface-muted);
+  border-top: 1px solid var(--color-border);
+  color: var(--color-text-muted);
+}
+
+.inner {
+  width: 100%;
+  max-width: var(--container-max-width);
+  margin-inline: auto;
+  padding: var(--space-7) var(--container-padding-inline) var(--space-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.top {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-8);
+  justify-content: center;
+}
+
+.team {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  min-width: 220px;
+}
+
+.creators {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(150px, 1fr));
+  align-items: start;
+  gap: var(--space-3) var(--space-5);
+}
+
+.creatorGroup {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.creator {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.creatorLink {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text);
+  transition: color var(--transition-fast);
+}
+
+.creatorLink:hover {
+  color: var(--color-primary);
+}
+
+.creatorRole {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+}
+
+.columns {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-7);
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  min-width: 140px;
+}
+
+.columnTitle {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text);
+}
+
+.column ul {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  font-size: var(--font-size-sm);
+}
+
+.column a {
+  transition: color var(--transition-fast);
+}
+
+.column a:hover {
+  color: var(--color-primary);
+}
+
+.bottom {
+  padding-top: var(--space-5);
+  border-top: 1px solid var(--color-border);
+  font-size: var(--font-size-xs);
+  text-align: center;
+}
+
+@media (max-width: 640px) {
+  .top {
+    flex-direction: column;
+    gap: var(--space-6);
+  }
+
+  .creators {
+    grid-template-columns: 1fr;
+  }
+
+  .columns {
+    flex-direction: column;
+    gap: var(--space-5);
+  }
+}
+
+@media print {
+  .footer {
+    display: none;
+  }
+}
