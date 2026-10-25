@@ -4,6 +4,7 @@ import { Button } from '../../../../components/ui/Button';
 import { FormField } from '../../../../components/form-field/FormField';
 import { PasswordField } from '../../../../components/form-field/PasswordField';
 import { MailIcon } from '../../../../components/icons';
+import { LIMITES } from '../../../../utils/validacoes';
 import formStyles from '../../../../components/auth-layout/AuthForm.module.css';
 
 // Mock de autenticação: sem back-end, o identificador decide o destino do
@@ -34,8 +35,9 @@ export function LoginFormSection() {
           label="E-mail ou CPF"
           icon={MailIcon}
           type="text"
-          placeholder="Digite seu e-mail ou CPF"
+          placeholder="E-mail ou CPF"
           autoComplete="username"
+          maxLength={LIMITES.email}
           required
           value={identificador}
           onChange={(event) => setIdentificador(event.target.value)}
@@ -44,8 +46,9 @@ export function LoginFormSection() {
         <PasswordField
           id="login-senha"
           label="Senha"
-          placeholder="Digite sua senha"
+          placeholder="Sua senha"
           autoComplete="current-password"
+          maxLength={LIMITES.senha}
           required
           value={senha}
           onChange={(event) => setSenha(event.target.value)}

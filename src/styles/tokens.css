@@ -87,6 +87,11 @@
   --color-alert-soft: #f8e0d9; /* coral 15% + areia 85% */
   --color-alert-contrast: #2e2e2e; /* grafite — 4.8:1 on coral */
 
+  /* ---- Validation error (form fields only) ----
+     Exceção aprovada pelo usuário à paleta: vermelho só p/ erro de formulário.
+     Nunca usar p/ alerta de queda (esse é o coral acima). */
+  --color-error: #b3261e; /* 6.1:1 on areia clara */
+
   /* ---- Neutrals ---- */
   --color-surface: #f7f5f2; /* areia clara — page canvas */
   --color-surface-raised: #f7f5f2; /* header/cards; separated via border+shadow */
@@ -123,6 +128,8 @@
   --color-alert: #ff6b4a; /* unchanged — already 4.8:1 on grafite */
   --color-alert-soft: #543933; /* coral 18% + grafite 82% */
   --color-alert-contrast: #2e2e2e;
+
+  --color-error: #f28b82; /* 4.6:1 on the raised card (#464646) */
 
   --color-surface: #2e2e2e; /* grafite — page canvas */
   --color-surface-raised: #464646; /* grafite 88% + areia 12% */

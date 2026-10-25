@@ -202,6 +202,14 @@ export function ArrowRightIcon(props: IconProps) {
   );
 }
 
+export function ArrowLeftIcon(props: IconProps) {
+  return (
+    <svg {...baseProps} {...props}>
+      <path d="M19.5 12h-15M10.5 6l-6 6 6 6" />
+    </svg>
+  );
+}
+
 export function ArrowUpIcon(props: IconProps) {
   return (
     <svg {...baseProps} {...props}>
@@ -241,6 +249,14 @@ export function MailIcon(props: IconProps) {
     <svg {...baseProps} {...props}>
       <rect x="3" y="5" width="18" height="14" rx="2.2" />
       <path d="m4 6.5 8 6 8-6" />
+    </svg>
+  );
+}
+
+export function PhoneIcon(props: IconProps) {
+  return (
+    <svg {...baseProps} {...props}>
+      <path d="M5 4h3.5l1.7 4.3-2.2 1.4a11 11 0 0 0 6.3 6.3l1.4-2.2L20 15.5V19a1.5 1.5 0 0 1-1.6 1.5A15.5 15.5 0 0 1 3.5 5.6 1.5 1.5 0 0 1 5 4Z" />
     </svg>
   );
 }

@@ -21,6 +21,21 @@ export function formatarCpf(valor: string): string {
   return resultado;
 }
 
+/** Formata progressivamente como telefone: (00) 00000-0000 (ou 8 dígitos). */
+export function formatarTelefone(valor: string): string {
+  const digitos = apenasDigitos(valor, 11);
+
+  if (digitos.length === 0) return '';
+  if (digitos.length <= 2) return `(${digitos}`;
+
+  const ddd = digitos.slice(0, 2);
+  const corte = digitos.length > 10 ? 7 : 6;
+  const inicio = digitos.slice(2, corte);
+  const fim = digitos.slice(corte);
+
+  return fim ? `(${ddd}) ${inicio}-${fim}` : `(${ddd}) ${inicio}`;
+}
+
 /** Formata progressivamente como data: dd/mm/aaaa. */
 export function formatarDataBr(valor: string): string {
   const digitos = apenasDigitos(valor, 8);

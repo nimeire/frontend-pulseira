@@ -11,8 +11,7 @@ export function CadastroPage() {
 
   return (
     <AuthLayout
-      panelTitle="Juntos por mais segurança"
-      panelDescription="Cadastre-se para começar a usar a pulseira de cuidados e ter acesso a todos os recursos do sistema."
+      wide
       formTitleId="cadastro-title"
       formTitle="Cadastro"
       formDescription="Preencha os dados abaixo para criar sua conta."

@@ -52,6 +52,20 @@
   box-shadow: 0 0 0 3px var(--color-primary-soft);
 }
 
+/* Erro de validação: token próprio (--color-error), nunca o coral de queda. */
+.input[aria-invalid='true'] {
+  border-color: var(--color-error);
+  box-shadow: 0 0 0 1px var(--color-error);
+}
+
+.error {
+  padding-left: var(--space-3);
+  border-left: 3px solid var(--color-error);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text);
+}
+
 .endAdornment {
   position: absolute;
   right: var(--space-2);

@@ -7,6 +7,8 @@ interface PasswordFieldProps
   extends Omit<InputHTMLAttributes<HTMLInputElement>, 'type' | 'id'> {
   id?: string;
   label: string;
+  error?: string | null;
+  invalid?: boolean;
 }
 
 export const PasswordField = forwardRef<HTMLInputElement, PasswordFieldProps>(

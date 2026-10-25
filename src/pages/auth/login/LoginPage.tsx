@@ -11,8 +11,6 @@ export function LoginPage() {
 
   return (
     <AuthLayout
-      panelTitle="Mais segurança e tranquilidade para quem você ama"
-      panelDescription="A pulseira de cuidados que mantém idosos seguros e suas famílias mais tranquilas."
       formTitleId="login-title"
       formTitle="Login"
       formDescription="Bem-vindo de volta! Faça login para continuar."
