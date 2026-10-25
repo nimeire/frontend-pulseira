@@ -14,7 +14,7 @@ export function SensorsPage() {
         titleId="sensors-hero-title"
         eyebrow="Tecnologia"
         title="Sensores"
-        description="Conheça os componentes que permitem localizar o usuário e identificar possíveis quedas: como cada um funciona e por que ele importa para o funcionamento do Zelo."
+        description="Conheça os componentes que permitem identificar possíveis quedas e pedir ajuda pelo botão de pânico: como cada um funciona e por que ele importa para o funcionamento do Zelo."
       />
       <HardwareOverviewSection />
       <SensorCardsSection />

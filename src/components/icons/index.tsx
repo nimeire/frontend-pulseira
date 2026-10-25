@@ -253,6 +253,34 @@ export function MailIcon(props: IconProps) {
   );
 }
 
+export function PanicButtonIcon(props: IconProps) {
+  return (
+    <svg {...baseProps} {...props}>
+      <circle cx="12" cy="12" r="8.5" />
+      <circle cx="12" cy="12" r="4.2" />
+      <circle cx="12" cy="12" r="1.2" fill="currentColor" stroke="none" />
+    </svg>
+  );
+}
+
+export function LedIcon(props: IconProps) {
+  return (
+    <svg {...baseProps} {...props}>
+      <circle cx="12" cy="12" r="3.4" />
+      <path d="M12 3.5v2.2M12 18.3v2.2M3.5 12h2.2M18.3 12h2.2M6 6l1.5 1.5M16.5 16.5 18 18M18 6l-1.5 1.5M7.5 16.5 6 18" />
+    </svg>
+  );
+}
+
+export function BatteryIcon(props: IconProps) {
+  return (
+    <svg {...baseProps} {...props}>
+      <rect x="2.5" y="7.5" width="16" height="9" rx="2" />
+      <path d="M21.5 10.5v3M6 10.5v3M9.5 10.5v3" />
+    </svg>
+  );
+}
+
 export function PhoneIcon(props: IconProps) {
   return (
     <svg {...baseProps} {...props}>

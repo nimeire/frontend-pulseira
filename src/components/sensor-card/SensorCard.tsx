@@ -1,4 +1,5 @@
 import type { IconComponent } from '../icons';
+import { Button } from '../ui/Button';
 import styles from './SensorCard.module.css';
 
 const IMAGE_WIDTH = 750;
@@ -8,33 +9,38 @@ interface SensorCardProps {
   icon: IconComponent;
   name: string;
   role: string;
-  image: string;
-  imageAlt: string;
-  whatItDoes: string;
-  whyItMatters: string;
-  whatUserNotices: string;
+  summary: string;
+  /** Foto do componente; sem ela, o card mostra só o ícone em destaque. */
+  image?: string;
+  imageAlt?: string;
+  onShowMore: () => void;
 }
 
 export function SensorCard({
   icon: Icon,
   name,
   role,
+  summary,
   image,
   imageAlt,
-  whatItDoes,
-  whyItMatters,
-  whatUserNotices,
+  onShowMore,
 }: SensorCardProps) {
   return (
     <li className={styles.card}>
-      <img
-        className={styles.image}
-        src={image}
-        alt={imageAlt}
-        width={IMAGE_WIDTH}
-        height={IMAGE_HEIGHT}
-        loading="lazy"
-      />
+      {image ? (
+        <img
+          className={styles.image}
+          src={image}
+          alt={imageAlt ?? ''}
+          width={IMAGE_WIDTH}
+          height={IMAGE_HEIGHT}
+          loading="lazy"
+        />
+      ) : (
+        <div className={styles.imagePlaceholder} aria-hidden="true">
+          <Icon className={styles.placeholderIcon} />
+        </div>
+      )}
 
       <div className={styles.body}>
         <div className={styles.heading}>
@@ -47,20 +53,17 @@ export function SensorCard({
           </div>
         </div>
 
-        <dl className={styles.details}>
-          <div className={styles.detail}>
-            <dt>O que faz</dt>
-            <dd>{whatItDoes}</dd>
-          </div>
-          <div className={styles.detail}>
-            <dt>Por que é importante</dt>
-            <dd>{whyItMatters}</dd>
-          </div>
-          <div className={styles.detail}>
-            <dt>O que você percebe na prática</dt>
-            <dd>{whatUserNotices}</dd>
-          </div>
-        </dl>
+        <p className={styles.summary}>{summary}</p>
+
+        <Button
+          variant="secondary"
+          className={styles.more}
+          onClick={onShowMore}
+          aria-haspopup="dialog"
+          aria-label={`Ver mais sobre ${name}`}
+        >
+          Ver mais
+        </Button>
       </div>
     </li>
   );

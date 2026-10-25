@@ -2,13 +2,10 @@ import type { IconComponent } from '../icons';
 import { classNames } from '../../utils/classNames';
 import styles from './StepList.module.css';
 
-type StepTone = 'primary' | 'alert';
-
 export interface StepItem {
   icon: IconComponent;
   title: string;
   description: string;
-  tone?: StepTone;
 }
 
 interface StepListProps {
@@ -20,10 +17,7 @@ export function StepList({ steps }: StepListProps) {
     <ol className={styles.list}>
       {steps.map((step, index) => {
         const Icon = step.icon;
-        const markerClass = classNames(
-          styles.marker,
-          step.tone === 'alert' ? styles.alert : styles.primary,
-        );
+        const markerClass = classNames(styles.marker, styles.primary);
 
         return (
           <li key={step.title} className={styles.step}>

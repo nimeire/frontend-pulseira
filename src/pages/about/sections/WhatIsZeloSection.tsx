@@ -13,11 +13,11 @@ export function WhatIsZeloSection() {
       gap="md"
     >
       <SectionText>
-        O {siteConfig.name} é uma pulseira inteligente que acompanha a
-        localização de uma pessoa e identifica possíveis quedas
-        automaticamente. Quando algo assim acontece, um alerta é enviado
-        para quem cuida dela — sem a pessoa precisar pegar o celular ou
-        pedir ajuda.
+        O {siteConfig.name} é uma pulseira inteligente que identifica
+        possíveis quedas automaticamente e conta com um botão de pânico.
+        Quando uma queda é detectada, ou quando o botão é apertado, um
+        alerta é enviado para quem cuida da pessoa — sem ela precisar
+        pegar o celular.
       </SectionText>
     </ContentSection>
   );

@@ -2,12 +2,9 @@ import { ArrowRightIcon, type IconComponent } from '../icons';
 import { classNames } from '../../utils/classNames';
 import styles from './FlowDiagram.module.css';
 
-type FlowTone = 'primary' | 'alert';
-
 export interface FlowStage {
   icon: IconComponent;
   label: string;
-  tone?: FlowTone;
 }
 
 interface FlowDiagramProps {
@@ -21,10 +18,7 @@ export function FlowDiagram({ stages, ariaLabel }: FlowDiagramProps) {
       {stages.map((stage, index) => {
         const Icon = stage.icon;
         const isLast = index === stages.length - 1;
-        const stageClass = classNames(
-          styles.stage,
-          stage.tone === 'alert' ? styles.alert : styles.primary,
-        );
+        const stageClass = classNames(styles.stage, styles.primary);
 
         return (
           <li key={stage.label} className={styles.item}>

@@ -38,11 +38,6 @@
   color: var(--color-primary);
 }
 
-.alert {
-  background: var(--color-alert-soft);
-  color: var(--color-alert);
-}
-
 .number {
   position: absolute;
   bottom: -4px;

@@ -1,0 +1,25 @@
+.flows {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-7);
+}
+
+@media (min-width: 768px) {
+  .flows {
+    grid-template-columns: 1fr 1fr;
+    align-items: start;
+  }
+}
+
+.flow {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.flowTitle {
+  text-align: center;
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text);
+}

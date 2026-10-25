@@ -6,14 +6,13 @@ export const passos: StepItem[] = [
     icon: MotionIcon,
     title: 'Acompanhamento contínuo',
     description:
-      'A pulseira acompanha a localização e os movimentos do usuário durante a rotina normal do dia a dia.',
+      'A pulseira acompanha os movimentos do usuário durante a rotina normal do dia a dia.',
   },
   {
     icon: AlertIcon,
-    title: 'Identificação de uma possível queda',
+    title: 'Queda detectada ou botão de pânico',
     description:
-      'Ao identificar um movimento compatível com uma queda, ela envia um alerta automaticamente, sem precisar de nenhuma ação da pessoa.',
-    tone: 'alert',
+      'Ao identificar um movimento compatível com uma queda — ou quando o botão de pânico é apertado — a pulseira envia um alerta automaticamente.',
   },
   {
     icon: DatabaseIcon,
@@ -25,6 +24,6 @@ export const passos: StepItem[] = [
     icon: MonitorIcon,
     title: 'Acompanhamento pelo responsável',
     description:
-      'O responsável acompanha tudo pelo site: localização no mapa, alertas recebidos e histórico de eventos.',
+      'O responsável recebe o alerta e acompanha tudo pelo site: alertas recebidos e histórico de eventos.',
   },
 ];

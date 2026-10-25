@@ -35,7 +35,7 @@ export const faq: readonly FaqItem[] = [
   },
   {
     id: 5,
-    pergunta: 'Como acompanho a localização?',
+    pergunta: 'Como sou avisado em uma emergência?',
     resposta:
       'Etiam tempor orci eu lectus. Aenean pharetra magna ac placerat vestibulum, lectus ante fringilla nisi, vitae dignissim mauris ligula sit amet lorem. Praesent blandit laoreet nibh, fusce convallis metus id felis luctus adipiscing. Pellentesque egestas, neque sit amet convallis pulvinar, justo nulla eleifend augue.',
   },

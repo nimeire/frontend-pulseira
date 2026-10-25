@@ -1,6 +1,6 @@
 import {
   HeartPulseIcon,
-  LocationPinIcon,
+  BellIcon,
   ShieldIcon,
   WristbandIcon,
   type IconComponent,
@@ -15,7 +15,7 @@ export const targetGroups: TargetGroup[] = [
   { icon: HeartPulseIcon, label: 'Idosos' },
   { icon: ShieldIcon, label: 'Pessoas com mobilidade reduzida' },
   {
-    icon: LocationPinIcon,
+    icon: BellIcon,
     label: 'Profissionais que atuam em locais isolados',
   },
 ];
@@ -31,12 +31,12 @@ export const profiles: ProfileCard[] = [
     icon: WristbandIcon,
     title: 'Usuário monitorado',
     description:
-      'Usa a pulseira no dia a dia. Não precisa fazer nada além de segui-la usando — a localização e os movimentos são acompanhados automaticamente.',
+      'Usa a pulseira no dia a dia. Os movimentos são acompanhados automaticamente e, em uma emergência, basta apertar o botão de pânico.',
   },
   {
     icon: HeartPulseIcon,
     title: 'Responsável (familiar, cuidador ou profissional de saúde)',
     description:
-      'Acompanha pelo site: vê a localização no mapa, recebe alertas e consulta o histórico de eventos de quem está sendo monitorado.',
+      'Acompanha pelo site: recebe os alertas de queda e de pânico e consulta o histórico de eventos de quem está sendo monitorado.',
   },
 ];

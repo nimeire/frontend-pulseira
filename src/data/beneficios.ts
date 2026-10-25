@@ -4,7 +4,7 @@ import {
   EyeIcon,
   HeartPulseIcon,
   HistoryIcon,
-  LocationPinIcon,
+  PanicButtonIcon,
   ShieldIcon,
   WristbandIcon,
   type IconComponent,
@@ -27,7 +27,7 @@ export const beneficios: Benefit[] = [
   },
   {
     icon: AlertIcon,
-    title: 'Detecção automática de quedas',
+    title: 'Detecção automática de possíveis quedas',
     description:
       'Identifica padrões de movimento compatíveis com uma queda e age sem precisar de nenhuma ação da pessoa.',
     tone: 'success',
@@ -39,17 +39,17 @@ export const beneficios: Benefit[] = [
       'Quem cuida é avisado assim que um possível evento é identificado, sem demora na comunicação.',
   },
   {
-    icon: LocationPinIcon,
-    title: 'Localização em tempo real no mapa',
+    icon: PanicButtonIcon,
+    title: 'Botão de pânico',
     description:
-      'A posição atual da pessoa monitorada fica visível a qualquer momento para quem acompanha.',
+      'Em qualquer situação de risco, a pessoa pode apertar o botão da pulseira e avisar o responsável na hora.',
     tone: 'success',
   },
   {
     icon: HistoryIcon,
-    title: 'Histórico de localização e eventos',
+    title: 'Histórico de alertas e eventos',
     description:
-      'É possível consultar deslocamentos e alertas anteriores para entender padrões ao longo do tempo.',
+      'É possível consultar os alertas e eventos anteriores para entender padrões ao longo do tempo.',
   },
   {
     icon: ShieldIcon,

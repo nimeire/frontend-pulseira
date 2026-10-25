@@ -2,7 +2,7 @@ import { DatabaseIcon, MonitorIcon, ServerIcon, WristbandIcon } from '../compone
 import type { FlowStage } from '../components/flow-diagram/FlowDiagram';
 
 export const dataFlow: FlowStage[] = [
-  { icon: WristbandIcon, label: 'Pulseira' },
+  { icon: WristbandIcon, label: 'Pulseira (ESP-12E)' },
   { icon: ServerIcon, label: 'API (Spring Boot)' },
   { icon: DatabaseIcon, label: 'Banco de dados (MongoDB)' },
   { icon: MonitorIcon, label: 'Site' },

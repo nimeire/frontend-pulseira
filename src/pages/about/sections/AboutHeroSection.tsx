@@ -13,7 +13,7 @@ export function AboutHeroSection() {
         <p className={styles.description}>
           O {siteConfig.name} nasceu para dar mais segurança a quem vive
           sozinho ou passa boa parte do dia sem companhia, sem depender de
-          uma ação ativa da pessoa monitorada em um momento de emergência.
+          pegar o celular em um momento de emergência.
         </p>
       </div>
       <div className={styles.media}>
