@@ -1,9 +1,10 @@
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import { DashboardLayout } from '../../components/dashboard-layout/DashboardLayout';
 import { Notice } from '../../components/notice/Notice';
 import { usePageMeta } from '../../hooks/usePageMeta';
 import { pacienteMock } from '../../data/pacienteMock';
-import { gerarTelemetriaMock } from '../../data/telemetriaMock';
+import { gerarAlertasMock, gerarUltimoSinalMock } from '../../data/alertasMock';
+import type { Alerta, StatusAlerta } from '../../types/alerta';
 import type { Paciente } from '../../types/paciente';
 import { ConexaoPacienteSection } from './sections/ConexaoPacienteSection';
 import { MonitoramentoSection } from './sections/MonitoramentoSection';
@@ -13,13 +14,14 @@ import styles from './ResponsavelPage.module.css';
 
 const PAGE_TITLE = 'Painel do responsável — Zelo';
 const PAGE_DESCRIPTION =
-  'Painel do responsável: conexão com o paciente, mapa em tempo real, dados médicos e log de monitoramento.';
+  'Painel do responsável: conexão com o paciente, alertas de queda e de pânico, status da pulseira e dados médicos.';
 
 export function ResponsavelPage() {
   usePageMeta({ title: PAGE_TITLE, description: PAGE_DESCRIPTION });
 
   const [paciente, setPaciente] = useState<Paciente | null>(null);
-  const telemetria = useMemo(() => gerarTelemetriaMock(), []);
+  const [alertas, setAlertas] = useState<Alerta[]>(() => gerarAlertasMock());
+  const [ultimoSinalEm] = useState(() => gerarUltimoSinalMock());
 
   function handleConectar() {
     // Mock: qualquer código aceita e vincula o paciente de exemplo.
@@ -30,17 +32,23 @@ export function ResponsavelPage() {
     setPaciente(null);
   }
 
+  function handleChangeStatus(id: string, status: StatusAlerta) {
+    setAlertas((current) =>
+      current.map((alerta) =>
+        alerta.id === id ? { ...alerta, status } : alerta,
+      ),
+    );
+  }
+
   return (
     <DashboardLayout badgeLabel="Responsável">
       <div className={styles.page}>
         <div className={styles.heading}>
           <h1 className={styles.title}>Painel do responsável</h1>
           <p className={styles.subtitle}>
-            Localização, status e saúde de quem você cuida.
+            Alertas, status e saúde de quem você cuida.
           </p>
         </div>
-
-        <Notice>Demonstração: nada aqui é salvo de verdade.</Notice>
 
         <ConexaoPacienteSection
           paciente={paciente}
@@ -50,9 +58,12 @@ export function ResponsavelPage() {
 
         {paciente ? (
           <>
-            <MonitoramentoSection paciente={paciente} registro={telemetria[0]} />
+            <MonitoramentoSection
+              alertas={alertas}
+              ultimoSinalEm={ultimoSinalEm}
+            />
+            <LogSection alertas={alertas} onChangeStatus={handleChangeStatus} />
             <DadosPacienteSection paciente={paciente} />
-            <LogSection registros={telemetria} />
           </>
         ) : (
           <Notice>Conecte-se a um paciente para começar.</Notice>

@@ -7,43 +7,43 @@ export interface FaqItem {
 /** How many questions each page of the FAQ shows. */
 export const PERGUNTAS_POR_PAGINA = 5;
 
-// TODO: substituir pelas respostas reais
+// TODO: substituir o lorem ipsum da resposta 7 (duração da bateria) pela resposta real
 export const faq: readonly FaqItem[] = [
   {
     id: 1,
     pergunta: 'O que é o Zelo?',
     resposta:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+      'O Zelo é uma pulseira inteligente que identifica possíveis quedas e tem um botão de pânico. Quando algo acontece, um alerta é enviado para quem cuida da pessoa, sem ela precisar pegar o celular. Ele é um projeto acadêmico (prova de conceito) da FATEC Praia Grande.',
   },
   {
     id: 2,
     pergunta: 'Como a pulseira funciona?',
     resposta:
-      'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident.',
+      'A pulseira tem um sensor de movimento (MPU6050) e um microcontrolador (ESP-12E) que lê os dados do sensor e do botão de pânico. Dois LEDs mostram o estado: um indica que ela está ligada e configurada, e o outro acende quando uma queda é detectada ou o botão é apertado. Nesses casos, o alerta é enviado ao sistema e aparece para o responsável no site.',
   },
   {
     id: 3,
     pergunta: 'Como a queda é detectada?',
     resposta:
-      'Sunt in culpa qui officia deserunt mollit anim id est laborum. Curabitur pretium tincidunt lacus, nulla gravida orci a odio. Nullam varius, turpis et commodo pharetra, est eros bibendum elit, nec luctus magna felis sollicitudin mauris.',
+      'O sensor de movimento mede aceleração e rotação várias vezes por segundo. Quando há uma mudança brusca e o padrão é compatível com uma queda, a pulseira acende o LED de alerta e envia o alerta ao responsável, sem a pessoa precisar fazer nada. Como o sistema ainda é um protótipo, ele pode errar: gerar alertas sem queda (falso positivo) ou não identificar uma queda.',
   },
   {
     id: 4,
     pergunta: 'A pulseira funciona sem celular?',
     resposta:
-      'Integer in mauris eu nibh euismod gravida. Duis ac tellus et risus vulputate vehicula. Donec lobortis risus a elit.',
+      'Sim. A pulseira detecta a queda e envia o alerta sozinha, sem depender do celular de quem a usa. Ela precisa estar ligada, configurada e conectada à internet. O responsável acompanha os alertas pelo site.',
   },
   {
     id: 5,
     pergunta: 'Como sou avisado em uma emergência?',
     resposta:
-      'Etiam tempor orci eu lectus. Aenean pharetra magna ac placerat vestibulum, lectus ante fringilla nisi, vitae dignissim mauris ligula sit amet lorem. Praesent blandit laoreet nibh, fusce convallis metus id felis luctus adipiscing. Pellentesque egestas, neque sit amet convallis pulvinar, justo nulla eleifend augue.',
+      'O alerta aparece no seu painel do responsável, no site, como "pendente", com o tipo (possível queda ou botão de pânico) e o horário. A partir daí você pode marcá-lo como reconhecido e, depois, como resolvido ou falso positivo.',
   },
   {
     id: 6,
     pergunta: 'Quem pode acompanhar o usuário?',
     resposta:
-      'Maecenas fermentum consequat mi. Donec fermentum, pellentesque malesuada nulla a mi. Duis sapien sem, aliquet nec, commodo eget, consequat quis, neque.',
+      'Os responsáveis (familiares, cuidadores ou profissionais de saúde) vinculados à pessoa. O vínculo começa pelo responsável: a pessoa monitorada compartilha o código de vínculo dela, o responsável digita esse código no painel e confirma. A pessoa pode desvincular o responsável quando quiser.',
   },
   {
     id: 7,
@@ -55,18 +55,18 @@ export const faq: readonly FaqItem[] = [
     id: 8,
     pergunta: 'Meus dados estão seguros?',
     resposta:
-      'Vivamus luctus urna sed urna ultricies ac tempor dui sagittis. In condimentum facilisis porta. Sed nec diam eu diam mattis viverra. Nulla fringilla, orci ac euismod semper, magna diam porttitor mauris, quis sollicitudin sapien justo in libero.',
+      'Tratamos os dados com cuidado: a senha é guardada de forma protegida (hash), e só responsáveis vinculados à pessoa veem os dados e as informações de saúde dela. O Zelo não coleta localização. Como o projeto ainda está em desenvolvimento, nenhum sistema é 100% seguro. Veja os detalhes na Política de privacidade.',
   },
   {
     id: 9,
     pergunta: 'A pulseira é um equipamento médico?',
     resposta:
-      'Vestibulum enim nisi, suscipit id, tincidunt ut, faucibus ac, nisi. Fusce vulputate eleifend sapien, vestibulum purus quam scelerisque ut, mollis sed nisl.',
+      'Não. O Zelo é um protótipo acadêmico e não é um equipamento médico certificado. Ele não substitui supervisão profissional nem atendimento de emergência. Em caso de emergência, ligue para o SAMU: 192.',
   },
   {
     id: 10,
     pergunta: 'Como entro em contato com o suporte?',
     resposta:
-      'Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Proin pharetra nonummy pede. Mauris et orci, aenean nec lorem in porta velit, ultricies nec. Suspendisse potenti, morbi quis tellus.',
+      'Pela página de Contato, onde estão os desenvolvedores do projeto, com e-mail, LinkedIn e GitHub de cada um.',
   },
 ];

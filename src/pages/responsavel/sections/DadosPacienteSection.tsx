@@ -24,6 +24,7 @@ export function DadosPacienteSection({ paciente }: DadosPacienteSectionProps) {
               {idade} anos · {paciente.telefone}
             </p>
             <p className={styles.meta}>
+              {paciente.endereco.logradouro}, {paciente.endereco.numero} —{' '}
               {paciente.endereco.bairro}, {paciente.endereco.cidade} -{' '}
               {paciente.endereco.estado}
             </p>

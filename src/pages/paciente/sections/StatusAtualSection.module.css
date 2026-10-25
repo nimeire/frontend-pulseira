@@ -13,9 +13,3 @@
   grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
   gap: var(--space-4);
 }
-
-.coords {
-  font-family: ui-monospace, 'SFMono-Regular', Consolas, monospace;
-  font-size: var(--font-size-xs);
-  color: var(--color-text-muted);
-}

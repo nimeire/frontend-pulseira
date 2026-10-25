@@ -7,7 +7,7 @@ import { FaqListSection } from './sections/FaqListSection';
 
 const PAGE_TITLE = 'Perguntas frequentes — Zelo';
 const PAGE_DESCRIPTION =
-  'Tire suas dúvidas sobre o Zelo: como a pulseira funciona, como a queda é detectada, localização, bateria e segurança dos dados.';
+  'Tire suas dúvidas sobre o Zelo: como a pulseira funciona, como a queda é detectada, botão de pânico, bateria e segurança dos dados.';
 
 export function FaqPage() {
   usePageMeta({ title: PAGE_TITLE, description: PAGE_DESCRIPTION });

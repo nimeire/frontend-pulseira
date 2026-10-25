@@ -1,48 +1,54 @@
-import { AlertIcon, CheckCircleIcon, HistoryIcon } from '../../../components/icons';
+import {
+  AlertIcon,
+  CheckCircleIcon,
+  HistoryIcon,
+  WristbandIcon,
+} from '../../../components/icons';
 import { StatCard } from '../../../components/stat-card/StatCard';
-import { LocationMap } from '../../../components/location-map/LocationMap';
 import { tempoRelativo } from '../../../utils/tempo';
-import type { Paciente } from '../../../types/paciente';
-import type { RegistroTelemetria } from '../../../types/telemetria';
+import type { Alerta } from '../../../types/alerta';
 import styles from './MonitoramentoSection.module.css';
 
 interface MonitoramentoSectionProps {
-  paciente: Paciente;
-  registro: RegistroTelemetria;
+  alertas: Alerta[];
+  /** Última vez que a pulseira do paciente se comunicou com o sistema. */
+  ultimoSinalEm: string;
 }
 
 export function MonitoramentoSection({
-  paciente,
-  registro,
+  alertas,
+  ultimoSinalEm,
 }: MonitoramentoSectionProps) {
-  const isQueda = registro.status === 'possivel_queda';
+  const pendentes = alertas.filter((alerta) => alerta.status === 'pendente');
+  const temPendente = pendentes.length > 0;
+  const ultimoAlerta = alertas[0];
 
   return (
-    <section
-      className={styles.section}
-      aria-label="Monitoramento em tempo real"
-    >
-      <h2 className={styles.title}>Localização agora</h2>
+    <section className={styles.section} aria-label="Situação atual">
+      <h2 className={styles.title}>Situação agora</h2>
 
       <div className={styles.cards}>
         <StatCard
-          icon={isQueda ? AlertIcon : CheckCircleIcon}
-          tone={isQueda ? 'alert' : 'success'}
-          value={isQueda ? 'Possível queda' : 'Tudo bem'}
+          icon={temPendente ? AlertIcon : CheckCircleIcon}
+          tone={temPendente ? 'alert' : 'success'}
+          value={
+            temPendente
+              ? `${pendentes.length} alerta${pendentes.length > 1 ? 's' : ''} pendente${pendentes.length > 1 ? 's' : ''}`
+              : 'Tudo bem'
+          }
           label="Status atual"
         />
         <StatCard
           icon={HistoryIcon}
-          value={tempoRelativo(registro.registradoEm)}
-          label="Última atualização"
+          value={ultimoAlerta ? tempoRelativo(ultimoAlerta.geradoEm) : 'Nenhum'}
+          label="Último alerta"
+        />
+        <StatCard
+          icon={WristbandIcon}
+          value={tempoRelativo(ultimoSinalEm)}
+          label="Último sinal da pulseira"
         />
       </div>
-
-      <LocationMap
-        latitude={registro.latitude}
-        longitude={registro.longitude}
-        label={paciente.nome}
-      />
     </section>
   );
 }

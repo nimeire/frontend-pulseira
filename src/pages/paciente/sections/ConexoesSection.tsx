@@ -28,7 +28,7 @@ export function ConexoesSection({
         <ConnectionCard
           icon={WristbandIcon}
           title="Pulseira"
-          description="Pareie a pulseira para registrar sua localização."
+          description="Pareie a pulseira para ela enviar alertas."
           connected={pulseira.status === 'conectada'}
           connectedSummary={
             <p className={styles.summary}>
@@ -37,7 +37,7 @@ export function ConexoesSection({
           }
           inputId="codigo-pulseira"
           inputLabel="Código do dispositivo"
-          inputPlaceholder="Ex.: ESP32-7F3A"
+          inputPlaceholder="Ex.: ESP12E-7F3A"
           connectLabel="Conectar pulseira"
           disconnectLabel="Desconectar pulseira"
           onConnect={onConectarPulseira}

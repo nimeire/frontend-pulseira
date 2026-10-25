@@ -3,17 +3,23 @@ import {
   HeartPulseIcon,
   UserIcon,
   UsersIcon,
+  WristbandIcon,
 } from '../../../components/icons';
 import { StatCard } from '../../../components/stat-card/StatCard';
 import { DistributionBar } from '../../../components/distribution-bar/DistributionBar';
+import type { PulseiraCadastrada } from '../../../types/pulseira';
 import type { Usuario } from '../../../types/usuario';
 import styles from './AdminStatsSection.module.css';
 
 interface AdminStatsSectionProps {
   usuarios: Usuario[];
+  pulseiras: PulseiraCadastrada[];
 }
 
-export function AdminStatsSection({ usuarios }: AdminStatsSectionProps) {
+export function AdminStatsSection({
+  usuarios,
+  pulseiras,
+}: AdminStatsSectionProps) {
   const total = usuarios.length;
   const totalPacientes = usuarios.filter((u) => u.tipo === 'paciente').length;
   const totalResponsaveis = usuarios.filter(
@@ -21,6 +27,9 @@ export function AdminStatsSection({ usuarios }: AdminStatsSectionProps) {
   ).length;
   const totalAtivos = usuarios.filter((u) => u.status === 'ativo').length;
   const totalInativos = total - totalAtivos;
+  const totalPulseirasAtivas = pulseiras.filter(
+    (p) => p.status === 'ativa',
+  ).length;
 
   return (
     <section className={styles.section} aria-label="Resumo de usuários">
@@ -36,6 +45,11 @@ export function AdminStatsSection({ usuarios }: AdminStatsSectionProps) {
           icon={CheckCircleIcon}
           value={totalAtivos}
           label="Ativos"
+        />
+        <StatCard
+          icon={WristbandIcon}
+          value={`${totalPulseirasAtivas}/${pulseiras.length}`}
+          label="Pulseiras ativas"
         />
       </div>
 

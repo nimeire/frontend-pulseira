@@ -1,9 +1,10 @@
 import { useMemo, useState } from 'react';
 import { DashboardLayout } from '../../components/dashboard-layout/DashboardLayout';
+import { AlertHistory } from '../../components/alert-history/AlertHistory';
 import { Notice } from '../../components/notice/Notice';
 import { usePageMeta } from '../../hooks/usePageMeta';
 import { pacienteMock, pulseiraMock, responsavelMock } from '../../data/pacienteMock';
-import { gerarTelemetriaMock } from '../../data/telemetriaMock';
+import { gerarAlertasMock } from '../../data/alertasMock';
 import type { InformacoesMedicas } from '../../types/paciente';
 import type { Pulseira } from '../../types/pulseira';
 import type { Responsavel } from '../../types/responsavel';
@@ -14,7 +15,7 @@ import styles from './PacientePage.module.css';
 
 const PAGE_TITLE = 'Minha dashboard — Zelo';
 const PAGE_DESCRIPTION =
-  'Dashboard do paciente: conexão com a pulseira e com o responsável, localização atual e dados médicos.';
+  'Dashboard do paciente: conexão com a pulseira e com o responsável, status, alertas e dados médicos.';
 
 export function PacientePage() {
   usePageMeta({ title: PAGE_TITLE, description: PAGE_DESCRIPTION });
@@ -29,13 +30,14 @@ export function PacientePage() {
   const [informacoesMedicas, setInformacoesMedicas] = useState<InformacoesMedicas>(
     pacienteMock.informacoesMedicas,
   );
-  const telemetria = useMemo(() => gerarTelemetriaMock(), []);
+  const alertas = useMemo(() => gerarAlertasMock(), []);
 
   function handleConectarPulseira(dispositivoId: string) {
     setPulseira({
       dispositivoId,
       status: 'conectada',
       vinculadaEm: new Date().toISOString(),
+      ultimoSinalEm: new Date().toISOString(),
     });
   }
 
@@ -53,11 +55,9 @@ export function PacientePage() {
         <div className={styles.heading}>
           <h1 className={styles.title}>Olá, {pacienteMock.nome.split(' ')[0]}</h1>
           <p className={styles.subtitle}>
-            Sua pulseira, seu responsável e sua saúde.
+            Sua pulseira, seus alertas e sua saúde.
           </p>
         </div>
-
-        <Notice>Demonstração: nada aqui é salvo de verdade.</Notice>
 
         <ConexoesSection
           pulseira={pulseira}
@@ -69,10 +69,15 @@ export function PacientePage() {
         />
 
         {pulseira.status === 'conectada' ? (
-          <StatusAtualSection registro={telemetria[0]} />
+          <StatusAtualSection pulseira={pulseira} alertas={alertas} />
         ) : (
-          <Notice>Conecte a pulseira para ver sua localização.</Notice>
+          <Notice>Conecte a pulseira para ver o status.</Notice>
         )}
+
+        <section className={styles.alertas} aria-label="Meus alertas">
+          <h2 className={styles.sectionTitle}>Meus alertas</h2>
+          <AlertHistory alertas={alertas} />
+        </section>
 
         <DadosMedicosSection
           informacoesMedicas={informacoesMedicas}

@@ -39,7 +39,8 @@ export const responsavelMock: Responsavel = {
 };
 
 export const pulseiraMock: Pulseira = {
-  dispositivoId: 'ESP32-7F3A',
+  dispositivoId: 'ESP12E-7F3A',
   status: 'desconectada',
   vinculadaEm: null,
+  ultimoSinalEm: null,
 };

@@ -4,14 +4,15 @@ import type { SecaoPolitica } from '../types/politica';
  * Privacy policy content.
  *
  * Facts about collected data come from the back-end data model
- * (backend-pulseira: Cuidador, PessoaMonitorada, Pulseira, Telemetria,
- * Alerta, VinculoCuidador) and from the front-end code. Anything that could
+ * (backend-pulseira: Cuidador, PessoaMonitorada, Pulseira, Alerta,
+ * VinculoCuidador) and from the front-end code. The wristband has no GPS, so
+ * no location data is collected. Anything that could
  * not be confirmed is written as a `[PLACEHOLDER EM MAIÚSCULAS]`, which the
  * page highlights so it is easy to find and fill in.
  */
 
 /** ISO date (YYYY-MM-DD) of the last content review. */
-export const ULTIMA_ATUALIZACAO = '2026-09-19';
+export const ULTIMA_ATUALIZACAO = '2026-10-25';
 
 export const TITULO_POLITICA = 'Política de privacidade';
 
@@ -19,8 +20,9 @@ export const SUBTITULO_POLITICA =
   'Como o Zelo cuida dos seus dados e dos dados de quem você ama';
 
 export const RESUMO_POLITICA: readonly string[] = [
-  'Coletamos apenas o que o sistema precisa para localizar a pessoa e identificar possíveis quedas.',
-  'Localização, movimento e informações de saúde são sensíveis: só responsáveis autorizados podem vê-los.',
+  'Coletamos apenas o que o sistema precisa para identificar possíveis quedas e receber pedidos de ajuda pelo botão de pânico.',
+  'O Zelo não coleta localização: a pulseira não tem GPS.',
+  'Alertas, movimento e informações de saúde são sensíveis: só responsáveis autorizados podem vê-los.',
   'Não vendemos dados pessoais nem os usamos para publicidade.',
   'Trabalhamos para proteger os dados, mas nenhum sistema é 100% seguro e o projeto ainda está em desenvolvimento.',
   'Você pode pedir acesso, correção ou eliminação dos seus dados e revogar seu consentimento, conforme a LGPD.',
@@ -37,7 +39,7 @@ export const secoesPolitica: readonly SecaoPolitica[] = [
       {
         tipo: 'paragrafo',
         texto:
-          'O Zelo é uma pulseira inteligente que acompanha a localização de uma pessoa e identifica possíveis quedas, avisando quem cuida dela. O sistema reúne a pulseira, um servidor, um banco de dados e este site.',
+          'O Zelo é uma pulseira inteligente que identifica possíveis quedas e tem um botão de pânico, avisando quem cuida da pessoa. A pulseira não usa GPS e não informa onde a pessoa está. O sistema reúne a pulseira, um servidor, um banco de dados e este site.',
       },
       {
         tipo: 'paragrafo',
@@ -53,7 +55,7 @@ export const secoesPolitica: readonly SecaoPolitica[] = [
       {
         tipo: 'paragrafo',
         texto:
-          'O controlador é quem decide como e por que os dados são tratados. No Zelo, o controlador é: [NOME E CONTATO DO CONTROLADOR A DEFINIR].',
+          'O controlador é quem decide como e por que os dados são tratados. No Zelo, por ser um projeto acadêmico, o controlador é a equipe de desenvolvimento do projeto, da FATEC Praia Grande. Você fala com a equipe pela página de Contato.',
       },
       { tipo: 'subtitulo', texto: 'Palavras que usamos' },
       {
@@ -75,7 +77,7 @@ export const secoesPolitica: readonly SecaoPolitica[] = [
           {
             termo: 'Dado pessoal',
             definicao:
-              'qualquer informação que identifica ou pode identificar uma pessoa, como nome, e-mail ou localização.',
+              'qualquer informação que identifica ou pode identificar uma pessoa, como nome, CPF, e-mail ou informações de saúde.',
           },
           {
             termo: 'Tratamento',
@@ -98,24 +100,27 @@ export const secoesPolitica: readonly SecaoPolitica[] = [
       {
         tipo: 'paragrafo',
         texto:
-          'Coletamos os dados necessários para localizar a pessoa, identificar possíveis quedas e permitir que os responsáveis acompanhem tudo pelo site.',
+          'Coletamos os dados necessários para identificar possíveis quedas, receber pedidos de ajuda pelo botão de pânico e permitir que os responsáveis acompanhem os alertas pelo site.',
       },
-      { tipo: 'subtitulo', texto: 'Localização (GPS)' },
+      { tipo: 'subtitulo', texto: 'Localização' },
       {
-        tipo: 'lista',
-        itens: [
-          'Latitude e longitude da pulseira.',
-          'Altitude (em metros) e precisão estimada da posição (em metros).',
-          'Data e hora de cada registro.',
-        ],
+        tipo: 'paragrafo',
+        texto:
+          'Não coletamos localização. A pulseira não tem GPS e o sistema não guarda latitude, longitude nem o trajeto da pessoa. O responsável sabe que houve um alerta, mas não onde a pessoa está.',
       },
       { tipo: 'subtitulo', texto: 'Movimento e possíveis quedas' },
       {
         tipo: 'lista',
         itens: [
-          'Aceleração e rotação nos três eixos (x, y e z), medidas pelo sensor de movimento.',
+          'O sensor de movimento mede aceleração e rotação nos três eixos (x, y e z) para identificar uma possível queda. Esses valores são enviados pela pulseira e guardados no servidor, com a data e a hora de cada leitura.',
           'A indicação de que uma possível queda foi detectada.',
-          'Alertas de possível queda, com a situação (pendente, reconhecido, resolvido ou falso positivo), os horários de geração, reconhecimento e resolução, e qual responsável reconheceu o alerta.',
+        ],
+      },
+      { tipo: 'subtitulo', texto: 'Alertas e botão de pânico' },
+      {
+        tipo: 'lista',
+        itens: [
+          'Alertas de possível queda e de acionamento do botão de pânico, com a situação (pendente, reconhecido, resolvido ou falso positivo), os horários de geração, reconhecimento e resolução, e qual responsável reconheceu o alerta.',
           'Uma observação em texto sobre o alerta.',
         ],
       },
@@ -123,13 +128,14 @@ export const secoesPolitica: readonly SecaoPolitica[] = [
       {
         tipo: 'paragrafo',
         texto:
-          'Cada leitura da pulseira e cada alerta ficam registrados com data e hora. Eles formam o histórico de localização e de eventos que os responsáveis podem consultar.',
+          'Cada alerta fica registrado com data e hora. Eles formam o histórico de eventos que os responsáveis podem consultar.',
       },
       { tipo: 'subtitulo', texto: 'Dados do responsável (conta de acesso)' },
       {
         tipo: 'lista',
         itens: [
-          'Nome, e-mail e telefone.',
+          'Nome, e-mail e telefone (opcional).',
+          'CPF e data de nascimento, pedidos no formulário de cadastro. O servidor atual ainda não guarda esses dois dados na conta do responsável: ele guarda a data de nascimento apenas da pessoa monitorada, e não guarda CPF.',
           'Endereço: logradouro, número, complemento, bairro, cidade, estado e CEP.',
           'Senha: guardamos apenas uma versão protegida dela (um hash), nunca a senha em si.',
           'Se a conta está ativa e a data em que foi criada.',
@@ -153,7 +159,8 @@ export const secoesPolitica: readonly SecaoPolitica[] = [
       {
         tipo: 'lista',
         itens: [
-          'Identificador do dispositivo, situação da pulseira (ativa, inativa ou em manutenção) e quando ela foi vinculada a uma pessoa.',
+          'Identificador do dispositivo, situação da pulseira (ativa, inativa ou em manutenção), quando ela foi vinculada a uma pessoa e quando ela se comunicou com o sistema pela última vez.',
+          'Um código de vínculo, que a pessoa monitorada compartilha com o responsável para que ele possa acompanhá-la.',
           'O vínculo entre cada responsável e cada pessoa monitorada, com o nível de acesso (administrador ou leitura), se está ativo e quando foi criado.',
         ],
       },
@@ -176,10 +183,11 @@ export const secoesPolitica: readonly SecaoPolitica[] = [
       {
         tipo: 'lista',
         itens: [
-          'Mostrar a localização atual da pessoa monitorada no mapa.',
           'Identificar movimentos compatíveis com uma possível queda.',
+          'Receber o pedido de ajuda quando o botão de pânico é apertado.',
           'Gerar e enviar alertas aos responsáveis e acompanhar o atendimento de cada alerta.',
-          'Manter o histórico de localização e de eventos.',
+          'Mostrar ao responsável se a pulseira está conectada e quando ela enviou o último sinal.',
+          'Manter o histórico de alertas e eventos.',
           'Controlar quem pode acessar os dados de quem (contas, vínculos e níveis de acesso).',
           'Disponibilizar o endereço e informações médicas mínimas aos responsáveis autorizados, para ajudar em uma emergência.',
           'Avaliar e melhorar o funcionamento do sistema, como a precisão da detecção de quedas.',
@@ -215,7 +223,7 @@ export const secoesPolitica: readonly SecaoPolitica[] = [
         tipo: 'lista',
         itens: [
           'As informações médicas (tipo sanguíneo, alergias, condições de saúde e medicamentos) são dados pessoais sensíveis pela LGPD, porque se referem à saúde.',
-          'Localização e alertas de queda nem sempre são classificados como sensíveis pela lei, mas podem revelar a rotina, os hábitos e a condição de saúde de uma pessoa. Por isso, recebem o mesmo cuidado.',
+          'Alertas de queda e de pânico nem sempre são classificados como sensíveis pela lei, mas podem revelar a condição de saúde e a rotina de uma pessoa. Por isso, recebem o mesmo cuidado.',
         ],
       },
       { tipo: 'paragrafo', texto: 'Na prática, isso significa que:' },
@@ -239,7 +247,7 @@ export const secoesPolitica: readonly SecaoPolitica[] = [
       {
         tipo: 'paragrafo',
         texto:
-          'A pessoa monitorada deve saber que usa um dispositivo que registra sua localização e seus movimentos, e que os responsáveis cadastrados podem acompanhá-los. O monitoramento deve respeitar a dignidade e a autonomia dela.',
+          'A pessoa monitorada deve saber que usa um dispositivo que mede seus movimentos para detectar quedas e que tem um botão de pânico, e que os responsáveis cadastrados recebem os alertas. O monitoramento deve respeitar a dignidade e a autonomia dela.',
       },
     ],
   },
@@ -260,7 +268,7 @@ export const secoesPolitica: readonly SecaoPolitica[] = [
       {
         tipo: 'paragrafo',
         texto:
-          'Os dados são guardados em um banco de dados MongoDB. Dependendo da configuração, o banco pode ficar em um serviço de nuvem (como o MongoDB Atlas), que atua apenas como infraestrutura de armazenamento. Provedor e localização dos servidores: [PROVEDOR DE HOSPEDAGEM E PAÍS DOS SERVIDORES A CONFIRMAR].',
+          'Os dados são guardados em um banco de dados MongoDB. Dependendo da configuração, o banco pode ficar em um serviço de nuvem (como o MongoDB Atlas), que atua apenas como infraestrutura de armazenamento. No protótipo, o banco roda em um MongoDB local, no computador da equipe, ou, se configurado, no MongoDB Atlas.',
       },
       {
         tipo: 'paragrafo',
@@ -284,8 +292,9 @@ export const secoesPolitica: readonly SecaoPolitica[] = [
           'Senhas: o modelo de dados guarda apenas uma versão protegida (hash) da senha, nunca a senha em si.',
           'Controle de acesso: cada responsável só vê os dados das pessoas às quais está vinculado, com nível de administrador ou de leitura.',
           'Informações médicas: exibidas somente a responsáveis autorizados.',
-          'Credenciais do banco de dados: ficam em configuração fora do código-fonte.',
-          'Conexão segura (objetivo): a transmissão de dados entre a pulseira, o servidor e o site deve usar HTTPS.',
+          'Credenciais do banco de dados: ficam em uma variável de ambiente (MONGO_URL), fora do código-fonte.',
+          'Conexão segura (objetivo): no protótipo, a pulseira conversa com o servidor pela rede local, sem criptografia (HTTP). Usar HTTPS é um objetivo para antes de qualquer uso real.',
+          'Autenticação: o servidor usa autenticação HTTP Basic nos acessos que exigem login. No protótipo, o cadastro de pessoas e de pulseiras e o envio das leituras da pulseira ainda não exigem login; isso deve mudar antes de publicar.',
           'Criptografia em repouso (objetivo): os dados guardados no banco MongoDB devem ser criptografados.',
         ],
       },
@@ -308,16 +317,16 @@ export const secoesPolitica: readonly SecaoPolitica[] = [
       {
         tipo: 'lista',
         itens: [
-          'Histórico de localização e movimento: [PRAZO DE RETENÇÃO DO HISTÓRICO A DEFINIR].',
-          'Alertas de possível queda: [PRAZO DE RETENÇÃO DOS ALERTAS A DEFINIR].',
-          'Conta do responsável e cadastro da pessoa monitorada: enquanto estiverem ativos e, depois disso, [PRAZO APÓS A DESATIVAÇÃO A DEFINIR].',
+          'Histórico de eventos e leituras do sensor: ainda não há prazo definido. Hoje esses dados ficam guardados até a equipe removê-los.',
+          'Alertas de possível queda e de botão de pânico: ainda não há prazo definido. Hoje ficam guardados até a equipe removê-los.',
+          'Conta do responsável e cadastro da pessoa monitorada: enquanto estiverem ativos. Depois de desativados, os dados continuam guardados até a equipe removê-los, a pedido do titular.',
         ],
       },
       { tipo: 'subtitulo', texto: 'Depois que uma conta é excluída' },
       {
         tipo: 'paragrafo',
         texto:
-          'No modelo de dados atual, contas e cadastros podem ser marcados como inativos. O que acontece depois, eliminação definitiva ou anonimização, ainda precisa ser definido: [PROCEDIMENTO APÓS A EXCLUSÃO DA CONTA A DEFINIR].',
+          'No modelo de dados atual, contas e cadastros só são marcados como inativos: os dados não são apagados automaticamente. A eliminação definitiva é feita pela equipe, a pedido do titular, removendo os dados do banco.',
       },
       {
         tipo: 'paragrafo',
@@ -358,7 +367,7 @@ export const secoesPolitica: readonly SecaoPolitica[] = [
       {
         tipo: 'paragrafo',
         texto:
-          'Envie sua solicitação para [E-MAIL DE CONTATO A DEFINIR], dizendo quem você é e o que deseja. Podemos pedir informações para confirmar sua identidade, para proteger seus dados. Responderemos em até [PRAZO DE RESPOSTA ÀS SOLICITAÇÕES A DEFINIR].',
+          'Envie sua solicitação à equipe pela página de Contato, dizendo quem você é e o que deseja. Podemos pedir informações para confirmar sua identidade, para proteger seus dados. Responderemos em até 15 dias, o prazo máximo que a LGPD prevê para a resposta completa (art. 19).',
       },
       {
         tipo: 'paragrafo',
@@ -391,7 +400,7 @@ export const secoesPolitica: readonly SecaoPolitica[] = [
       {
         tipo: 'paragrafo',
         texto:
-          'O site ainda não tem login. Quando tiver, o método usado para manter você conectado será descrito aqui: [MECANISMO DE SESSÃO A DEFINIR: COOKIE OU ARMAZENAMENTO LOCAL].',
+          'O login do site ainda é uma demonstração e não mantém sessão. O servidor atual usa autenticação HTTP Basic, que não usa cookies. Se isso mudar, esta seção será atualizada com o método usado para manter você conectado.',
       },
     ],
   },
@@ -404,7 +413,8 @@ export const secoesPolitica: readonly SecaoPolitica[] = [
         itens: [
           'O Zelo é uma prova de conceito e não é um equipamento médico certificado.',
           'A detecção de quedas pode ter falsos positivos (alerta sem queda) e falsos negativos (queda não identificada). Por isso o sistema tem a situação "falso positivo" para os alertas.',
-          'A precisão do GPS varia e pode ser menor em ambientes fechados ou com sinal fraco.',
+          'A pulseira não informa localização: ela detecta quedas e dispara o alerta, mas não mostra onde a pessoa está.',
+          'O alerta só chega se a pulseira estiver ligada, configurada e conectada à internet. No protótipo, ela é alimentada por um powerbank.',
           'O Zelo não substitui atendimento de emergência nem supervisão profissional.',
         ],
       },
@@ -431,7 +441,7 @@ export const secoesPolitica: readonly SecaoPolitica[] = [
       {
         tipo: 'paragrafo',
         texto:
-          'Se a mudança for relevante, avisaremos os responsáveis cadastrados: [FORMA DE AVISO DE ALTERAÇÕES A DEFINIR: E-MAIL OU AVISO NO SITE].',
+          'Se a mudança for relevante, atualizaremos a data de "Última atualização" e destacaremos o que mudou nesta página.',
       },
     ],
   },
@@ -447,9 +457,8 @@ export const secoesPolitica: readonly SecaoPolitica[] = [
       {
         tipo: 'lista',
         itens: [
-          'Encarregado pelo tratamento de dados (DPO): [NOME DO ENCARREGADO (DPO) A DEFINIR].',
-          'E-mail: [E-MAIL DE CONTATO A DEFINIR].',
-          'Controlador: [NOME E CONTATO DO CONTROLADOR A DEFINIR].',
+          'Encarregado pelo tratamento de dados (DPO): ainda não designado, por ser um projeto acadêmico.',
+          'Controlador: a equipe de desenvolvimento do projeto Zelo, da FATEC Praia Grande.',
         ],
       },
       {

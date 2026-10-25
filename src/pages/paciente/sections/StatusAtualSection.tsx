@@ -2,19 +2,27 @@ import {
   AlertIcon,
   CheckCircleIcon,
   HistoryIcon,
-  LocationPinIcon,
+  WristbandIcon,
 } from '../../../components/icons';
 import { StatCard } from '../../../components/stat-card/StatCard';
 import { tempoRelativo } from '../../../utils/tempo';
-import type { RegistroTelemetria } from '../../../types/telemetria';
+import type { Alerta } from '../../../types/alerta';
+import type { Pulseira } from '../../../types/pulseira';
 import styles from './StatusAtualSection.module.css';
 
 interface StatusAtualSectionProps {
-  registro: RegistroTelemetria;
+  pulseira: Pulseira;
+  alertas: Alerta[];
 }
 
-export function StatusAtualSection({ registro }: StatusAtualSectionProps) {
-  const isQueda = registro.status === 'possivel_queda';
+export function StatusAtualSection({
+  pulseira,
+  alertas,
+}: StatusAtualSectionProps) {
+  const temAlertaEmAberto = alertas.some(
+    (alerta) => alerta.status === 'pendente',
+  );
+  const ultimoAlerta = alertas[0];
 
   return (
     <section className={styles.section} aria-label="Status atual">
@@ -22,27 +30,26 @@ export function StatusAtualSection({ registro }: StatusAtualSectionProps) {
 
       <div className={styles.cards}>
         <StatCard
-          icon={isQueda ? AlertIcon : CheckCircleIcon}
-          tone={isQueda ? 'alert' : 'success'}
-          value={isQueda ? 'Possível queda' : 'Tudo bem'}
+          icon={temAlertaEmAberto ? AlertIcon : CheckCircleIcon}
+          tone={temAlertaEmAberto ? 'alert' : 'success'}
+          value={temAlertaEmAberto ? 'Alerta enviado' : 'Tudo bem'}
           label="Status atual"
         />
         <StatCard
-          icon={LocationPinIcon}
-          value={`${registro.bairro}, ${registro.cidade}`}
-          label="Última localização"
+          icon={HistoryIcon}
+          value={ultimoAlerta ? tempoRelativo(ultimoAlerta.geradoEm) : 'Nenhum'}
+          label="Último alerta"
         />
         <StatCard
-          icon={HistoryIcon}
-          value={tempoRelativo(registro.registradoEm)}
-          label="Última atualização"
+          icon={WristbandIcon}
+          value={
+            pulseira.ultimoSinalEm
+              ? tempoRelativo(pulseira.ultimoSinalEm)
+              : '—'
+          }
+          label="Último sinal da pulseira"
         />
       </div>
-
-      <p className={styles.coords}>
-        Lat {registro.latitude.toFixed(5)}, Long{' '}
-        {registro.longitude.toFixed(5)}
-      </p>
     </section>
   );
 }
