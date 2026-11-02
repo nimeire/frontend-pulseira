@@ -75,3 +75,52 @@
 .hasEndAdornment {
   padding-right: calc(var(--space-4) + 32px);
 }
+
+/* ---- Variante "linha": só uma linha embaixo, rótulo pequeno em caixa alta ---- */
+
+.linha {
+  gap: 0;
+}
+
+.linha .label {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+.linha .input {
+  height: 44px;
+  padding-inline: 0;
+  border: 0;
+  border-bottom: 1.5px solid var(--color-text);
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.linha .input:hover {
+  border-bottom-color: var(--color-primary);
+}
+
+.linha .input:focus-visible {
+  border-bottom-color: var(--color-primary);
+  box-shadow: 0 1.5px 0 var(--color-primary);
+}
+
+.linha .input[aria-invalid='true'] {
+  border-bottom-color: var(--color-error);
+  box-shadow: 0 1.5px 0 var(--color-error);
+}
+
+.linha .hasEndAdornment {
+  padding-right: calc(var(--space-2) + 36px);
+}
+
+.linha .endAdornment {
+  right: 0;
+}
+
+.linha .error {
+  margin-top: var(--space-2);
+}

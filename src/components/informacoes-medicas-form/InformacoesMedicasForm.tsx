@@ -1,5 +1,7 @@
 import { useState, type FormEvent } from 'react';
 import { ChecklistField } from '../checklist-field/ChecklistField';
+import { useNotificar } from '../../hooks/useNotificar';
+import { mensagemDeErro } from '../../services/api';
 import { Button } from '../ui/Button';
 import {
   alergiasComuns,
@@ -13,22 +15,33 @@ import styles from './InformacoesMedicasForm.module.css';
 interface InformacoesMedicasFormProps {
   value: InformacoesMedicas;
   onChange: (value: InformacoesMedicas) => void;
+  /** Envia o formulário para a API; se falhar, a mensagem do erro aparece no formulário. */
+  onSalvar: () => Promise<void>;
 }
 
 export function InformacoesMedicasForm({
   value,
   onChange,
+  onSalvar,
 }: InformacoesMedicasFormProps) {
-  const [salvo, setSalvo] = useState(false);
+  const [salvando, setSalvando] = useState(false);
+  const notificar = useNotificar();
 
   function atualizar(parcial: Partial<InformacoesMedicas>) {
-    setSalvo(false);
     onChange({ ...value, ...parcial });
   }
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    setSalvo(true);
+    setSalvando(true);
+    try {
+      await onSalvar();
+      notificar.sucesso('Dados de saúde salvos!');
+    } catch (falha) {
+      notificar.erro(mensagemDeErro(falha));
+    } finally {
+      setSalvando(false);
+    }
   }
 
   return (
@@ -81,8 +94,9 @@ export function InformacoesMedicasForm({
       </label>
 
       <div className={styles.footer}>
-        <Button type="submit">Salvar</Button>
-        {salvo && <span className={styles.savedMessage}>Salvo!</span>}
+        <Button type="submit" disabled={salvando}>
+          {salvando ? 'Salvando…' : 'Salvar'}
+        </Button>
       </div>
     </form>
   );

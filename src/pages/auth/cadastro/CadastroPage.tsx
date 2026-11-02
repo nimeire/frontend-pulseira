@@ -1,4 +1,7 @@
+import { Navigate } from 'react-router-dom';
 import { AuthLayout } from '../../../components/auth-layout/AuthLayout';
+import { useAuth } from '../../../hooks/useAuth';
+import { rotaInicial } from '../../../utils/perfil';
 import { usePageMeta } from '../../../hooks/usePageMeta';
 import { CadastroFormSection } from './sections/CadastroFormSection';
 
@@ -8,6 +11,11 @@ const PAGE_DESCRIPTION =
 
 export function CadastroPage() {
   usePageMeta({ title: PAGE_TITLE, description: PAGE_DESCRIPTION });
+  const { conta } = useAuth();
+
+  if (conta) {
+    return <Navigate to={rotaInicial(conta.perfil)} replace />;
+  }
 
   return (
     <AuthLayout

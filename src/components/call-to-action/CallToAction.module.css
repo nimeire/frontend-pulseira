@@ -22,6 +22,7 @@
 }
 
 .description {
+  text-wrap: balance;
   font-size: var(--font-size-sm);
   color: var(--color-primary-contrast);
   opacity: 0.85;

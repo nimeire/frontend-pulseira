@@ -1,24 +1,29 @@
 .layout {
+  /* Cinza claro (areia mais escura) no tema claro e o fundo escuro do site no tema escuro:
+     o cartão, mais claro que o fundo, ganha destaque no meio. */
+  --auth-fundo: var(--color-surface-muted);
+
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
   min-height: 100dvh;
   padding: var(--space-8) var(--container-padding-inline) var(--space-7);
-  background:
-    radial-gradient(
-      60rem 30rem at 50% -10%,
-      var(--color-primary-soft),
-      transparent 70%
-    ),
-    var(--color-surface);
+  background: var(--auth-fundo);
+}
+
+:global([data-theme='dark']) .layout {
+  --auth-fundo: var(--color-surface);
 }
 
 .topBar {
   position: absolute;
   top: var(--space-4);
-  left: var(--container-padding-inline);
-  right: var(--container-padding-inline);
+  left: 0;
+  right: 0;
+  max-width: var(--container-max-width);
+  margin-inline: auto;
+  padding-inline: var(--container-padding-inline);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -34,27 +39,23 @@
   border-radius: var(--radius-md);
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-medium);
-  color: var(--color-text-muted);
-  transition:
-    color var(--transition-fast),
-    background-color var(--transition-fast);
+  color: var(--color-text);
+  transition: background-color var(--transition-fast);
 }
 
 .backLink:hover {
-  color: var(--color-text);
-  background: var(--color-surface-muted);
+  background: color-mix(in srgb, var(--color-text) 10%, transparent);
 }
 
 .card {
   display: flex;
   flex-direction: column;
-  gap: var(--space-6);
+  gap: var(--space-5);
   width: 100%;
   max-width: 28rem;
-  padding: var(--space-7) var(--space-6);
+  padding: var(--space-6) var(--space-7) var(--space-7);
   background: var(--color-surface-raised);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
+  border-radius: calc(var(--radius-lg) * 1.5);
   box-shadow: var(--shadow-lg);
 }
 
@@ -62,11 +63,16 @@
   max-width: 40rem;
 }
 
-.brand {
+.cardTop {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: var(--space-3);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
 }
 
 .logo {
@@ -74,7 +80,7 @@
 }
 
 .brandName {
-  font-size: var(--font-size-2xl);
+  font-size: var(--font-size-lg);
   font-weight: var(--font-weight-bold);
   color: var(--color-text);
 }
@@ -91,6 +97,7 @@
 }
 
 .description {
+  text-wrap: balance;
   color: var(--color-text-muted);
 }
 
@@ -101,8 +108,7 @@
   }
 
   .card {
-    padding: var(--space-6) var(--space-5);
-    box-shadow: var(--shadow-md);
+    padding: var(--space-5) var(--space-5) var(--space-6);
   }
 }
 
@@ -112,11 +118,10 @@
   }
 
   .card {
-    padding: var(--space-5) var(--space-4);
+    padding-inline: var(--space-4);
   }
 
   .topBar {
-    left: var(--space-3);
-    right: var(--space-3);
+    padding-inline: var(--space-3);
   }
 }

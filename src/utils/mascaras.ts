@@ -36,6 +36,18 @@ export function formatarTelefone(valor: string): string {
   return fim ? `(${ddd}) ${inicio}-${fim}` : `(${ddd}) ${inicio}`;
 }
 
+/** Formata progressivamente como CEP: 00000-000. */
+export function formatarCep(valor: string): string {
+  const digitos = apenasDigitos(valor, 8);
+  return digitos.length > 5 ? `${digitos.slice(0, 5)}-${digitos.slice(5)}` : digitos;
+}
+
+/** Converte dd/mm/aaaa (já validada) para o formato ISO aaaa-mm-dd que a API espera. */
+export function dataBrParaIso(valor: string): string {
+  const [dia, mes, ano] = valor.split('/');
+  return `${ano}-${mes}-${dia}`;
+}
+
 /** Formata progressivamente como data: dd/mm/aaaa. */
 export function formatarDataBr(valor: string): string {
   const digitos = apenasDigitos(valor, 8);

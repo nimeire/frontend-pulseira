@@ -1,6 +1,12 @@
-import { forwardRef, type InputHTMLAttributes, type ReactNode } from 'react';
+import {
+  forwardRef,
+  useContext,
+  type InputHTMLAttributes,
+  type ReactNode,
+} from 'react';
 import { classNames } from '../../utils/classNames';
 import type { IconComponent } from '../icons';
+import { VarianteCampoContext } from './variante-campo';
 import styles from './FormField.module.css';
 
 interface FormFieldProps extends InputHTMLAttributes<HTMLInputElement> {
@@ -19,16 +25,17 @@ export const FormField = forwardRef<HTMLInputElement, FormFieldProps>(
     { id, label, icon: Icon, endAdornment, error, invalid, className, ...rest },
     ref,
   ) {
+    const linha = useContext(VarianteCampoContext) === 'linha';
     const errorId = `${id}-erro`;
     const hasError = Boolean(error || invalid);
 
     return (
-      <div className={classNames(styles.field, className)}>
+      <div className={classNames(styles.field, linha && styles.linha, className)}>
         <label className={styles.label} htmlFor={id}>
           {label}
         </label>
         <div className={styles.inputWrapper}>
-          <Icon className={styles.icon} />
+          {!linha && <Icon className={styles.icon} />}
           <input
             ref={ref}
             id={id}

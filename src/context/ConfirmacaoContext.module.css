@@ -1,0 +1,11 @@
+.mensagem {
+  color: var(--color-text);
+  line-height: var(--line-height-relaxed);
+}
+
+.acoes {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: var(--space-3);
+}

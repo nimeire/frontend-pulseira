@@ -1,6 +1,7 @@
 import { useState, type FormEvent } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button } from '../../../../components/ui/Button';
+import { ChecklistField } from '../../../../components/checklist-field/ChecklistField';
 import { FormField } from '../../../../components/form-field/FormField';
 import { PasswordField } from '../../../../components/form-field/PasswordField';
 import {
@@ -10,7 +11,11 @@ import {
   PhoneIcon,
   UserIcon,
 } from '../../../../components/icons';
+import { useNotificar } from '../../../../hooks/useNotificar';
+import { mensagemDeErro } from '../../../../services/api';
+import { cadastrarConta } from '../../../../services/zelo';
 import {
+  dataBrParaIso,
   formatarCpf,
   formatarDataBr,
   formatarTelefone,
@@ -26,6 +31,13 @@ import {
   validarTelefone,
 } from '../../../../utils/validacoes';
 import formStyles from '../../../../components/auth-layout/AuthForm.module.css';
+
+type PerfilCadastro = 'RESPONSAVEL' | 'PACIENTE';
+
+const opcoesPerfil = [
+  { value: 'RESPONSAVEL', label: 'Sou responsável' },
+  { value: 'PACIENTE', label: 'Sou paciente' },
+];
 
 type Campo =
   | 'nome'
@@ -58,6 +70,9 @@ export function CadastroFormSection() {
   const [tocados, setTocados] = useState<Partial<Record<Campo, boolean>>>({});
   const [focado, setFocado] = useState<Campo | null>(null);
   const [tentouEnviar, setTentouEnviar] = useState(false);
+  const [perfil, setPerfil] = useState<PerfilCadastro>('RESPONSAVEL');
+  const [enviando, setEnviando] = useState(false);
+  const notificar = useNotificar();
 
   const erros: Record<Campo, string | null> = {
     nome: validarNome(nome),
@@ -94,7 +109,7 @@ export function CadastroFormSection() {
     },
   });
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setTentouEnviar(true);
 
@@ -106,7 +121,22 @@ export function CadastroFormSection() {
       return;
     }
 
-    navigate('/login');
+    setEnviando(true);
+    try {
+      await cadastrarConta({
+        nome: nome.trim(),
+        cpf,
+        dataNascimento: dataBrParaIso(dataNascimento),
+        email: email.trim(),
+        telefone,
+        senha,
+        perfil,
+      });
+      navigate('/login', { state: { cadastrado: true } });
+    } catch (falha) {
+      notificar.erro(mensagemDeErro(falha));
+      setEnviando(false);
+    }
   }
 
   return (
@@ -116,6 +146,19 @@ export function CadastroFormSection() {
         onSubmit={handleSubmit}
         noValidate
       >
+        <div className={formStyles.fullWidth}>
+          <ChecklistField
+            legend="Tipo de conta"
+            name="perfil"
+            options={opcoesPerfil}
+            value={[perfil]}
+            onChange={(proximo) =>
+              setPerfil((proximo[0] as PerfilCadastro | undefined) ?? perfil)
+            }
+            multiple={false}
+          />
+        </div>
+
         <FormField
           {...props('nome')}
           className={formStyles.fullWidth}
@@ -211,8 +254,9 @@ export function CadastroFormSection() {
         <Button
           type="submit"
           className={`${formStyles.submit} ${formStyles.fullWidth}`}
+          disabled={enviando}
         >
-          Cadastrar
+          {enviando ? 'Cadastrando…' : 'Cadastrar'}
         </Button>
       </form>
 

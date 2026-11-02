@@ -1,54 +1,84 @@
 import { useState, type FormEvent } from 'react';
 import { Avatar } from '../../../components/avatar/Avatar';
 import { FormField } from '../../../components/form-field/FormField';
+import { StatusBadge } from '../../../components/status-badge/StatusBadge';
 import { Button } from '../../../components/ui/Button';
 import { IdCardIcon } from '../../../components/icons';
+import { useNotificar } from '../../../hooks/useNotificar';
+import { mensagemDeErro } from '../../../services/api';
+import {
+  buscarPacientePorCodigo,
+  vincularPorCodigo,
+} from '../../../services/zelo';
 import { classNames } from '../../../utils/classNames';
 import { calcularIdade } from '../../../utils/idade';
-import { pacienteMock } from '../../../data/pacienteMock';
-import type { Paciente } from '../../../types/paciente';
+import type { PacienteResumo } from '../../../types/paciente';
 import connectionStyles from '../../../components/connection-card/ConnectionCard.module.css';
 import styles from './ConexaoPacienteSection.module.css';
 
 interface ConexaoPacienteSectionProps {
-  paciente: Paciente | null;
-  onConectar: () => void;
-  onDesconectar: () => void;
+  pacientes: PacienteResumo[];
+  selecionadoId: string | null;
+  onSelecionar: (pacienteId: string) => void;
+  /** Chamado depois que a API confirmou o vínculo; recebe o paciente recém-conectado. */
+  onVinculado: (paciente: PacienteResumo) => void;
+  onDesconectar: (pacienteId: string) => void;
 }
 
 type Etapa = 'buscar' | 'confirmar';
 
+function localDe(paciente: PacienteResumo): string {
+  return [
+    paciente.bairro,
+    [paciente.cidade, paciente.estado].filter(Boolean).join(' - '),
+  ]
+    .filter(Boolean)
+    .join(', ');
+}
+
 export function ConexaoPacienteSection({
-  paciente,
-  onConectar,
+  pacientes,
+  selecionadoId,
+  onSelecionar,
+  onVinculado,
   onDesconectar,
 }: ConexaoPacienteSectionProps) {
   const [etapa, setEtapa] = useState<Etapa>('buscar');
   const [codigo, setCodigo] = useState('');
-  const [erro, setErro] = useState<string | null>(null);
-  const [encontrado, setEncontrado] = useState<Paciente | null>(null);
+  const notificar = useNotificar();
+  const [encontrado, setEncontrado] = useState<PacienteResumo | null>(null);
+  const [ocupado, setOcupado] = useState(false);
 
-  function handleBuscar(event: FormEvent<HTMLFormElement>) {
+  const total = pacientes.length;
+  const local = encontrado ? localDe(encontrado) : '';
+
+  async function handleBuscar(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    const digitado = codigo.trim().toUpperCase();
-
-    // Mock: só existe o paciente de exemplo, com código fixo em pacienteMock.
-    // Quando o back-end expuser a busca por código, trocar por fetch real.
-    if (digitado !== pacienteMock.codigoVinculo) {
-      setErro('Código não encontrado. Confira e tente de novo.');
-      return;
+    setOcupado(true);
+    try {
+      setEncontrado(await buscarPacientePorCodigo(codigo));
+      setEtapa('confirmar');
+    } catch (falha) {
+      notificar.erro(mensagemDeErro(falha));
+    } finally {
+      setOcupado(false);
     }
-
-    setErro(null);
-    setEncontrado(pacienteMock);
-    setEtapa('confirmar');
   }
 
-  function handleConfirmar() {
-    onConectar();
-    setEtapa('buscar');
-    setCodigo('');
-    setEncontrado(null);
+  async function handleConfirmar() {
+    setOcupado(true);
+    try {
+      const vinculado = await vincularPorCodigo(codigo);
+      setEtapa('buscar');
+      setCodigo('');
+      setEncontrado(null);
+      onVinculado(vinculado);
+      notificar.sucesso('Paciente conectado!');
+    } catch (falha) {
+      notificar.erro(mensagemDeErro(falha));
+    } finally {
+      setOcupado(false);
+    }
   }
 
   function handleCancelar() {
@@ -57,56 +87,94 @@ export function ConexaoPacienteSection({
   }
 
   return (
-    <section className={styles.section} aria-label="Conexão com o paciente">
+    <section className={styles.section} aria-label="Pacientes">
       <div className={connectionStyles.card}>
         <div className={connectionStyles.header}>
           <span className={connectionStyles.iconWrapper}>
             <IdCardIcon />
           </span>
           <div className={connectionStyles.headerText}>
-            <h3 className={connectionStyles.title}>Paciente</h3>
+            <h3 className={connectionStyles.title}>Pacientes</h3>
             <p className={connectionStyles.description}>
-              Digite o código do paciente para conectar.
+              {total === 0
+                ? 'Digite o código do paciente para conectar.'
+                : 'Escolha quem acompanhar ou conecte outro paciente.'}
             </p>
           </div>
           <span
             className={classNames(
               connectionStyles.status,
-              paciente
+              total > 0
                 ? connectionStyles.statusConnected
                 : connectionStyles.statusDisconnected,
             )}
           >
-            {paciente ? 'Conectado' : 'Não conectado'}
+            {total === 0
+              ? 'Não conectado'
+              : total === 1
+                ? '1 conectado'
+                : `${total} conectados`}
           </span>
         </div>
 
-        {paciente ? (
-          <div className={connectionStyles.connectedBody}>
-            <p className={styles.summary}>
-              Acompanhando <strong>{paciente.nome}</strong>
-            </p>
-            <Button variant="secondary" onClick={onDesconectar}>
-              Desconectar
-            </Button>
-          </div>
-        ) : etapa === 'buscar' ? (
+        {total > 0 && (
+          <ul className={styles.lista}>
+            {pacientes.map((paciente) => {
+              const aberto = paciente.id === selecionadoId;
+              return (
+                <li
+                  key={paciente.id}
+                  className={classNames(styles.linha, aberto && styles.linhaAberta)}
+                >
+                  <Avatar
+                    name={paciente.nome}
+                    photoUrl={paciente.fotoUrl ?? undefined}
+                    alt=""
+                    size={44}
+                  />
+                  <div className={styles.linhaInfo}>
+                    <p className={styles.linhaNome} title={paciente.nome}>
+                      {paciente.nome}
+                    </p>
+                    <StatusBadge ativo={paciente.ativo} />
+                  </div>
+                  <div className={styles.linhaAcoes}>
+                    <Button
+                      variant={aberto ? 'primary' : 'secondary'}
+                      aria-pressed={aberto}
+                      onClick={() => onSelecionar(paciente.id)}
+                    >
+                      {aberto ? 'Acompanhando' : 'Ver painel'}
+                    </Button>
+                    <Button
+                      variant="secondary"
+                      onClick={() => onDesconectar(paciente.id)}
+                      aria-label={`Desconectar ${paciente.nome}`}
+                    >
+                      Desconectar
+                    </Button>
+                  </div>
+                </li>
+              );
+            })}
+          </ul>
+        )}
+
+        {etapa === 'buscar' ? (
           <form className={connectionStyles.form} onSubmit={handleBuscar}>
             <FormField
               id="codigo-paciente"
-              label="Código do paciente"
+              label={total > 0 ? 'Conectar outro paciente' : 'Código do paciente'}
               icon={IdCardIcon}
               type="text"
-              placeholder="Ex.: ZELO-4T7P"
+              placeholder="Ex.: ZELO-AB12"
               required
               value={codigo}
-              onChange={(event) => {
-                setErro(null);
-                setCodigo(event.target.value);
-              }}
+              onChange={(event) => setCodigo(event.target.value)}
             />
-            {erro && <p className={styles.erro}>{erro}</p>}
-            <Button type="submit">Buscar</Button>
+            <Button type="submit" disabled={ocupado}>
+              {ocupado ? 'Buscando…' : 'Buscar'}
+            </Button>
           </form>
         ) : (
           encontrado && (
@@ -114,23 +182,37 @@ export function ConexaoPacienteSection({
               <p className={styles.confirmacaoAviso}>É esta a pessoa certa?</p>
 
               <div className={styles.preview}>
-                <Avatar name={encontrado.nome} size={48} />
-                <div>
-                  <p className={styles.previewNome}>{encontrado.nome}</p>
-                  <p className={styles.previewMeta}>
-                    {calcularIdade(encontrado.dataNascimento)} anos ·{' '}
-                    {encontrado.telefone}
+                <Avatar
+                  name={encontrado.nome}
+                  photoUrl={encontrado.fotoUrl ?? undefined}
+                  alt=""
+                  size={48}
+                />
+                <div className={styles.previewTexto}>
+                  <p className={styles.previewNome} title={encontrado.nome}>
+                    {encontrado.nome}
                   </p>
                   <p className={styles.previewMeta}>
-                    {encontrado.endereco.bairro}, {encontrado.endereco.cidade}{' '}
-                    - {encontrado.endereco.estado}
+                    {[
+                      `${calcularIdade(encontrado.dataNascimento)} anos`,
+                      encontrado.telefone,
+                    ]
+                      .filter(Boolean)
+                      .join(' · ')}
                   </p>
+                  {local && <p className={styles.previewMeta}>{local}</p>}
                 </div>
               </div>
 
               <div className={styles.confirmacaoActions}>
-                <Button onClick={handleConfirmar}>Confirmar</Button>
-                <Button variant="secondary" onClick={handleCancelar}>
+                <Button onClick={handleConfirmar} disabled={ocupado}>
+                  {ocupado ? 'Confirmando…' : 'Confirmar'}
+                </Button>
+                <Button
+                  variant="secondary"
+                  onClick={handleCancelar}
+                  disabled={ocupado}
+                >
                   Cancelar
                 </Button>
               </div>

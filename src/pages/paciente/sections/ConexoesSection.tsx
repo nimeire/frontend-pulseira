@@ -6,17 +6,17 @@ import type { Responsavel } from '../../../types/responsavel';
 import styles from './ConexoesSection.module.css';
 
 interface ConexoesSectionProps {
-  pulseira: Pulseira;
-  responsavel: Responsavel | null;
+  pulseira: Pulseira | null;
+  responsaveis: Responsavel[];
   codigoVinculo: string;
   onConectarPulseira: (dispositivoId: string) => void;
   onDesconectarPulseira: () => void;
-  onDesconectarResponsavel: () => void;
+  onDesconectarResponsavel: (responsavelId: string) => void;
 }
 
 export function ConexoesSection({
   pulseira,
-  responsavel,
+  responsaveis,
   codigoVinculo,
   onConectarPulseira,
   onDesconectarPulseira,
@@ -29,10 +29,10 @@ export function ConexoesSection({
           icon={WristbandIcon}
           title="Pulseira"
           description="Pareie a pulseira para ela enviar alertas."
-          connected={pulseira.status === 'conectada'}
+          connected={pulseira?.status === 'conectada'}
           connectedSummary={
             <p className={styles.summary}>
-              Dispositivo <strong>{pulseira.dispositivoId}</strong>
+              Dispositivo <strong>{pulseira?.dispositivoId}</strong>
             </p>
           }
           inputId="codigo-pulseira"
@@ -46,7 +46,7 @@ export function ConexoesSection({
 
         <PatientCodeCard
           codigoVinculo={codigoVinculo}
-          responsavel={responsavel}
+          responsaveis={responsaveis}
           onDesvincular={onDesconectarResponsavel}
         />
       </div>

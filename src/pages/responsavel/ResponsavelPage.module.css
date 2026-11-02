@@ -15,6 +15,7 @@
 }
 
 .subtitle {
+  text-wrap: balance;
   font-size: var(--font-size-md);
   color: var(--color-text-muted);
 }

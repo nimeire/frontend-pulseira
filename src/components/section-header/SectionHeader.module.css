@@ -26,6 +26,7 @@
 }
 
 .description {
+  text-wrap: balance;
   font-size: var(--font-size-lg);
   color: var(--color-text-muted);
   line-height: var(--line-height-relaxed);

@@ -55,8 +55,14 @@
 }
 
 .submit {
-  width: 100%;
+  width: min(100%, 15rem);
   height: 48px;
+  align-self: center;
+  justify-self: center;
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-sm);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
 }
 
 .footer {
@@ -73,3 +79,4 @@
 .footerLink:hover {
   text-decoration: underline;
 }
+

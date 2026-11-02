@@ -1,11 +1,15 @@
 import { useState } from 'react';
 import { DashboardLayout } from '../../components/dashboard-layout/DashboardLayout';
 import { Notice } from '../../components/notice/Notice';
+import { PainelEstado } from '../../components/painel-estado/PainelEstado';
+import { useAcao } from '../../hooks/useAcao';
 import { usePageMeta } from '../../hooks/usePageMeta';
-import { pacienteMock } from '../../data/pacienteMock';
-import { gerarAlertasMock, gerarUltimoSinalMock } from '../../data/alertasMock';
-import type { Alerta, StatusAlerta } from '../../types/alerta';
-import type { Paciente } from '../../types/paciente';
+import { useRecurso } from '../../hooks/useRecurso';
+import {
+  atenderAlerta,
+  carregarPainelResponsavel,
+  desvincularPaciente,
+} from '../../services/zelo';
 import { ConexaoPacienteSection } from './sections/ConexaoPacienteSection';
 import { MonitoramentoSection } from './sections/MonitoramentoSection';
 import { DadosPacienteSection } from './sections/DadosPacienteSection';
@@ -14,31 +18,45 @@ import styles from './ResponsavelPage.module.css';
 
 const PAGE_TITLE = 'Painel do responsável — Zelo';
 const PAGE_DESCRIPTION =
-  'Painel do responsável: conexão com o paciente, alertas de queda e de pânico, status da pulseira e dados médicos.';
+  'Painel do responsável: conexão com os pacientes, alertas de queda e de pânico, status da pulseira e dados médicos.';
+const INTERVALO_ATUALIZACAO_MS = 15_000;
+
+const mensagemDoAtendimento = {
+  reconhecido: 'Alerta reconhecido.',
+  resolvido: 'Alerta resolvido.',
+  falso_positivo: 'Alerta marcado como falso positivo.',
+} as const;
 
 export function ResponsavelPage() {
   usePageMeta({ title: PAGE_TITLE, description: PAGE_DESCRIPTION });
 
-  const [paciente, setPaciente] = useState<Paciente | null>(null);
-  const [alertas, setAlertas] = useState<Alerta[]>(() => gerarAlertasMock());
-  const [ultimoSinalEm] = useState(() => gerarUltimoSinalMock());
+  // Paciente aberto no painel; `null` = o primeiro da lista.
+  const [selecionadoId, setSelecionadoId] = useState<string | null>(null);
+  // Sobe depois de atender um alerta, para as listas de alertas recarregarem na hora.
+  const [versaoAlertas, setVersaoAlertas] = useState(0);
 
-  function handleConectar() {
-    // Mock: qualquer código aceita e vincula o paciente de exemplo.
-    setPaciente(pacienteMock);
-  }
+  const { dados, carregando, erro, recarregar } = useRecurso(
+    () => carregarPainelResponsavel(selecionadoId),
+    `painel:${selecionadoId ?? ''}`,
+    INTERVALO_ATUALIZACAO_MS,
+  );
+  const executar = useAcao(recarregar);
 
-  function handleDesconectar() {
-    setPaciente(null);
-  }
-
-  function handleChangeStatus(id: string, status: StatusAlerta) {
-    setAlertas((current) =>
-      current.map((alerta) =>
-        alerta.id === id ? { ...alerta, status } : alerta,
-      ),
+  if (!dados) {
+    return (
+      <DashboardLayout badgeLabel="Responsável">
+        <PainelEstado
+          carregando={carregando}
+          erro={erro}
+          onTentarDeNovo={recarregar}
+        />
+      </DashboardLayout>
     );
   }
+
+  const { pacientes, paciente, pulseira, resumo } = dados;
+  // Logo depois de trocar de paciente, os dados ainda são do anterior até a API responder.
+  const trocando = selecionadoId !== null && paciente?.id !== selecionadoId;
 
   return (
     <DashboardLayout badgeLabel="Responsável">
@@ -51,22 +69,38 @@ export function ResponsavelPage() {
         </div>
 
         <ConexaoPacienteSection
-          paciente={paciente}
-          onConectar={handleConectar}
-          onDesconectar={handleDesconectar}
+          pacientes={pacientes}
+          selecionadoId={paciente?.id ?? null}
+          onSelecionar={setSelecionadoId}
+          // Trocar o paciente aberto muda a chave do useRecurso, que já recarrega o painel.
+          onVinculado={(novo) => setSelecionadoId(novo.id)}
+          onDesconectar={(pacienteId) =>
+            executar(async () => {
+              await desvincularPaciente(pacienteId);
+              if (pacienteId === (paciente?.id ?? null)) setSelecionadoId(null);
+            }, 'Paciente desconectado.')
+          }
         />
 
-        {paciente ? (
+        {!paciente || !resumo ? (
+          <Notice>Conecte-se a um paciente para começar.</Notice>
+        ) : trocando ? (
+          <Notice>Carregando o painel…</Notice>
+        ) : (
           <>
-            <MonitoramentoSection
-              alertas={alertas}
-              ultimoSinalEm={ultimoSinalEm}
+            <MonitoramentoSection resumo={resumo} pulseira={pulseira} />
+            <LogSection
+              pessoaId={paciente.id}
+              versao={versaoAlertas}
+              onChangeStatus={(alertaId, status) =>
+                executar(async () => {
+                  await atenderAlerta(alertaId, status);
+                  setVersaoAlertas((versao) => versao + 1);
+                }, mensagemDoAtendimento[status])
+              }
             />
-            <LogSection alertas={alertas} onChangeStatus={handleChangeStatus} />
             <DadosPacienteSection paciente={paciente} />
           </>
-        ) : (
-          <Notice>Conecte-se a um paciente para começar.</Notice>
         )}
       </div>
     </DashboardLayout>

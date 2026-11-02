@@ -15,3 +15,8 @@ export function tempoRelativo(iso: string): string {
   const dias = Math.floor(horas / 24);
   return dias === 1 ? 'há 1 dia' : `há ${dias} dias`;
 }
+
+/** `true` se o instante ISO aconteceu há no máximo `limiteMs` milissegundos. */
+export function aconteceuHaMenosDe(iso: string, limiteMs: number): boolean {
+  return Date.now() - new Date(iso).getTime() <= limiteMs;
+}

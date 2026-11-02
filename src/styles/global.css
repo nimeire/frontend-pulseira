@@ -4,6 +4,9 @@
 
 html {
   font-size: 16px;
+  /* Reserva o espaço da barra de rolagem: sem isso o cabeçalho "anda" ~15px entre
+     páginas curtas (sem barra) e longas (com barra). */
+  scrollbar-gutter: stable;
 }
 
 body {
@@ -27,13 +30,27 @@ body {
   min-height: 100dvh;
 }
 
+/* Quebra de linha: títulos e subtítulos curtos ficam com linhas equilibradas, e
+   textos corridos evitam terminar com uma palavra solta na última linha. */
 h1,
 h2,
 h3,
 h4 {
+  text-wrap: balance;
   font-weight: var(--font-weight-semibold);
   line-height: var(--line-height-tight);
   color: var(--color-text);
+}
+
+p,
+figcaption {
+  text-wrap: pretty;
+}
+
+/* Itens de lista e do índice são curtos e ficam em colunas estreitas: linhas iguais. */
+li,
+dd {
+  text-wrap: balance;
 }
 
 section[id] {

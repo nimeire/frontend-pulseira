@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react';
 import { Link } from 'react-router-dom';
 import { siteConfig } from '../../data/siteConfig';
+import { VarianteCampoContext } from '../form-field/variante-campo';
 import { ArrowLeftIcon } from '../icons';
 import { ThemeToggle } from '../theme-toggle/ThemeToggle';
 import styles from './AuthLayout.module.css';
@@ -31,16 +32,18 @@ export function AuthLayout({
       </div>
 
       <main className={wide ? `${styles.card} ${styles.cardWide}` : styles.card}>
-        <Link className={styles.brand} to="/" aria-label="Zelo — página inicial">
-          <img
-            className={styles.logo}
-            src={siteConfig.logoSrc}
-            alt=""
-            width={48}
-            height={48}
-          />
-          <span className={styles.brandName}>{siteConfig.name}</span>
-        </Link>
+        <div className={styles.cardTop}>
+          <Link className={styles.brand} to="/" aria-label="Zelo — página inicial">
+            <img
+              className={styles.logo}
+              src={siteConfig.logoSrc}
+              alt=""
+              width={32}
+              height={32}
+            />
+            <span className={styles.brandName}>{siteConfig.name}</span>
+          </Link>
+        </div>
 
         <header className={styles.header}>
           <h1 id={formTitleId} className={styles.title}>
@@ -49,7 +52,9 @@ export function AuthLayout({
           <p className={styles.description}>{formDescription}</p>
         </header>
 
-        {children}
+        <VarianteCampoContext.Provider value="linha">
+          {children}
+        </VarianteCampoContext.Provider>
       </main>
     </div>
   );

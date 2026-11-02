@@ -1,9 +1,6 @@
 import type { ReactNode } from 'react';
-import { Link } from 'react-router-dom';
-import { siteConfig } from '../../data/siteConfig';
+import { Header } from '../header/Header';
 import { PageContainer } from '../layout/PageContainer';
-import { LinkButton } from '../ui/LinkButton';
-import { ThemeToggle } from '../theme-toggle/ThemeToggle';
 import styles from './DashboardLayout.module.css';
 
 interface DashboardLayoutProps {
@@ -12,34 +9,15 @@ interface DashboardLayoutProps {
   children: ReactNode;
 }
 
-/** Standalone shell (no site header/footer) shared by /admin, /paciente and /responsavel. */
+/**
+ * Shell (no site footer) shared by /admin, /paciente, /responsavel and /perfil.
+ * Usa o mesmo `Header` do site, para o logo, o menu e o botão de tema ficarem
+ * sempre no mesmo lugar ao navegar entre as páginas.
+ */
 export function DashboardLayout({ badgeLabel, children }: DashboardLayoutProps) {
   return (
     <div className={styles.layout}>
-      <header className={styles.header}>
-        <PageContainer>
-          <div className={styles.headerInner}>
-            <Link className={styles.brand} to="/">
-              <img
-                className={styles.logo}
-                src={siteConfig.logoSrc}
-                alt=""
-                width={32}
-                height={32}
-              />
-              <span className={styles.brandName}>{siteConfig.name}</span>
-              <span className={styles.badge}>{badgeLabel}</span>
-            </Link>
-
-            <div className={styles.actions}>
-              <ThemeToggle />
-              <LinkButton variant="secondary" to="/login">
-                Sair
-              </LinkButton>
-            </div>
-          </div>
-        </PageContainer>
-      </header>
+      <Header badge={badgeLabel} />
 
       <main className={styles.main}>
         <PageContainer>{children}</PageContainer>

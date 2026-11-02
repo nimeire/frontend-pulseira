@@ -1,27 +1,23 @@
-import {
-  AlertIcon,
-  CheckCircleIcon,
-  HistoryIcon,
-  WristbandIcon,
-} from '../../../components/icons';
+import { AlertIcon, CheckCircleIcon, WristbandIcon } from '../../../components/icons';
 import { StatCard } from '../../../components/stat-card/StatCard';
+import { descreverPulseira } from '../../../utils/estadoPulseira';
 import { tempoRelativo } from '../../../utils/tempo';
-import type { Alerta } from '../../../types/alerta';
+import type { ResumoAlertas } from '../../../types/alerta';
+import type { Pulseira } from '../../../types/pulseira';
 import styles from './MonitoramentoSection.module.css';
 
 interface MonitoramentoSectionProps {
-  alertas: Alerta[];
-  /** Última vez que a pulseira do paciente se comunicou com o sistema. */
-  ultimoSinalEm: string;
+  resumo: ResumoAlertas;
+  pulseira: Pulseira | null;
 }
 
 export function MonitoramentoSection({
-  alertas,
-  ultimoSinalEm,
+  resumo,
+  pulseira,
 }: MonitoramentoSectionProps) {
-  const pendentes = alertas.filter((alerta) => alerta.status === 'pendente');
-  const temPendente = pendentes.length > 0;
-  const ultimoAlerta = alertas[0];
+  const { pendentes, ultimoAlerta } = resumo;
+  const temPendente = pendentes > 0;
+  const estadoPulseira = descreverPulseira(pulseira);
 
   return (
     <section className={styles.section} aria-label="Situação atual">
@@ -33,20 +29,20 @@ export function MonitoramentoSection({
           tone={temPendente ? 'alert' : 'success'}
           value={
             temPendente
-              ? `${pendentes.length} alerta${pendentes.length > 1 ? 's' : ''} pendente${pendentes.length > 1 ? 's' : ''}`
+              ? `${pendentes} alerta${pendentes > 1 ? 's' : ''} pendente${pendentes > 1 ? 's' : ''}`
               : 'Tudo bem'
           }
-          label="Status atual"
-        />
-        <StatCard
-          icon={HistoryIcon}
-          value={ultimoAlerta ? tempoRelativo(ultimoAlerta.geradoEm) : 'Nenhum'}
-          label="Último alerta"
+          label={
+            ultimoAlerta
+              ? `Último alerta ${tempoRelativo(ultimoAlerta.geradoEm)}`
+              : 'Nenhum alerta ainda'
+          }
         />
         <StatCard
           icon={WristbandIcon}
-          value={tempoRelativo(ultimoSinalEm)}
-          label="Último sinal da pulseira"
+          tone={estadoPulseira.tone}
+          value={estadoPulseira.value}
+          label={estadoPulseira.label}
         />
       </div>
     </section>

@@ -14,3 +14,17 @@ export interface Alerta {
   status: StatusAlerta;
   geradoEm: string;
 }
+
+/** Quantos alertas esperam atendimento e qual foi o mais recente (`GET /api/alertas/resumo`). */
+export interface ResumoAlertas {
+  pendentes: number;
+  ultimoAlerta: Alerta | null;
+}
+
+/** Uma página de alertas (`pagina` começa em 1). */
+export interface PaginaAlertas {
+  itens: Alerta[];
+  pagina: number;
+  totalItens: number;
+  totalPaginas: number;
+}

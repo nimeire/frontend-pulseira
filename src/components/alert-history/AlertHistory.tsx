@@ -8,7 +8,8 @@ import styles from './AlertHistory.module.css';
 interface AlertHistoryProps {
   alertas: Alerta[];
   /** Quando informado, alertas em aberto mostram os botões de atendimento. */
-  onChangeStatus?: (id: string, status: StatusAlerta) => void;
+  onChangeStatus?: (id: string, status: Exclude<StatusAlerta, 'pendente'>) => void;
+  mensagemVazia?: string;
 }
 
 const tituloPorTipo: Record<TipoAlerta, string> = {
@@ -36,9 +37,13 @@ function iconePorTipo(tipo: TipoAlerta, emAberto: boolean) {
 }
 
 /** Lista de alertas (queda e botão de pânico) — mais recente primeiro. */
-export function AlertHistory({ alertas, onChangeStatus }: AlertHistoryProps) {
+export function AlertHistory({
+  alertas,
+  onChangeStatus,
+  mensagemVazia = 'Nenhum alerta até agora.',
+}: AlertHistoryProps) {
   if (alertas.length === 0) {
-    return <p className={styles.empty}>Nenhum alerta até agora.</p>;
+    return <p className={styles.empty}>{mensagemVazia}</p>;
   }
 
   return (

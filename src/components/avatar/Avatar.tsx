@@ -4,6 +4,8 @@ import styles from './Avatar.module.css';
 interface AvatarProps {
   name: string;
   photoUrl?: string;
+  /** Texto alternativo da foto. Padrão: "Caricatura de {nome}"; use "" quando o nome já aparece ao lado. */
+  alt?: string;
   /** Overrides the default 96px size, e.g. for compact table rows. */
   size?: number;
 }
@@ -15,7 +17,7 @@ function getInitials(name: string): string {
   return (first + last).toUpperCase();
 }
 
-export function Avatar({ name, photoUrl, size }: AvatarProps) {
+export function Avatar({ name, photoUrl, alt, size }: AvatarProps) {
   const dimension = size ?? 96;
   const style: CSSProperties | undefined = size
     ? { width: size, height: size, fontSize: 'var(--font-size-xs)' }
@@ -26,7 +28,7 @@ export function Avatar({ name, photoUrl, size }: AvatarProps) {
       <img
         className={styles.avatar}
         src={photoUrl}
-        alt={`Caricatura de ${name}`}
+        alt={alt ?? `Caricatura de ${name}`}
         width={dimension}
         height={dimension}
         style={style}

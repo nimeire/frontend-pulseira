@@ -72,6 +72,7 @@
 }
 
 .summary {
+  text-wrap: balance;
   flex: 1;
   font-size: var(--font-size-sm);
   color: var(--color-text-muted);

@@ -1,0 +1,19 @@
+.lista {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.rodape {
+  display: flex;
+  justify-content: center;
+}
+
+.estado {
+  color: var(--color-text-muted);
+}
+
+.total {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+}

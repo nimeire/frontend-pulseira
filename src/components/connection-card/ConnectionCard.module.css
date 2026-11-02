@@ -39,6 +39,7 @@
 }
 
 .description {
+  text-wrap: balance;
   margin-top: var(--space-1);
   font-size: var(--font-size-sm);
   color: var(--color-text-muted);

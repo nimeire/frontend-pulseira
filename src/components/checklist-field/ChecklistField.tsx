@@ -1,4 +1,6 @@
+import { useContext } from 'react';
 import { classNames } from '../../utils/classNames';
+import { VarianteCampoContext } from '../form-field/variante-campo';
 import type { OpcaoChecklist } from '../../data/opcoesMedicas';
 import styles from './ChecklistField.module.css';
 
@@ -22,6 +24,8 @@ export function ChecklistField({
   multiple = true,
   hint,
 }: ChecklistFieldProps) {
+  const linha = useContext(VarianteCampoContext) === 'linha';
+
   function handleToggle(optionValue: string) {
     if (!multiple) {
       onChange([optionValue]);
@@ -37,7 +41,7 @@ export function ChecklistField({
   }
 
   return (
-    <fieldset className={styles.fieldset}>
+    <fieldset className={classNames(styles.fieldset, linha && styles.linha)}>
       <legend className={styles.legend}>{legend}</legend>
       {hint && <p className={styles.hint}>{hint}</p>}
 

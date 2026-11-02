@@ -27,6 +27,7 @@
 }
 
 .description {
+  text-wrap: balance;
   font-size: var(--font-size-lg);
   color: var(--color-text-muted);
   max-width: 46ch;

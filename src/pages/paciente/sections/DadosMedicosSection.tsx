@@ -5,11 +5,13 @@ import styles from './DadosMedicosSection.module.css';
 interface DadosMedicosSectionProps {
   informacoesMedicas: InformacoesMedicas;
   onChange: (value: InformacoesMedicas) => void;
+  onSalvar: () => Promise<void>;
 }
 
 export function DadosMedicosSection({
   informacoesMedicas,
   onChange,
+  onSalvar,
 }: DadosMedicosSectionProps) {
   return (
     <section className={styles.section} aria-label="Dados médicos">
@@ -24,6 +26,7 @@ export function DadosMedicosSection({
         <InformacoesMedicasForm
           value={informacoesMedicas}
           onChange={onChange}
+          onSalvar={onSalvar}
         />
       </div>
     </section>

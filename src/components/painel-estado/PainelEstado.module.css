@@ -1,0 +1,12 @@
+.carregando {
+  padding-block: var(--space-7);
+  text-align: center;
+  color: var(--color-text-muted);
+}
+
+.erro {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-4);
+}

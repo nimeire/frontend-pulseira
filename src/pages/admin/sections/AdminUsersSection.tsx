@@ -1,6 +1,7 @@
 import { Avatar } from '../../../components/avatar/Avatar';
 import { IconButton } from '../../../components/ui/IconButton';
 import { PowerIcon, TrashIcon } from '../../../components/icons';
+import { useConfirmar } from '../../../hooks/useConfirmar';
 import { classNames } from '../../../utils/classNames';
 import type { Usuario } from '../../../types/usuario';
 import styles from './AdminUsersSection.module.css';
@@ -21,11 +22,15 @@ export function AdminUsersSection({
   onToggleStatus,
   onDelete,
 }: AdminUsersSectionProps) {
-  function handleDelete(usuario: Usuario) {
-    const confirmed = window.confirm(
-      `Excluir ${usuario.nome}? Não dá pra desfazer.`,
-    );
-    if (confirmed) {
+  const confirmar = useConfirmar();
+
+  async function handleDelete(usuario: Usuario) {
+    const confirmou = await confirmar({
+      titulo: 'Excluir usuário?',
+      mensagem: `Excluir ${usuario.nome}? Não dá pra desfazer.`,
+      confirmar: 'Excluir',
+    });
+    if (confirmou) {
       onDelete(usuario.id);
     }
   }
@@ -61,12 +66,16 @@ export function AdminUsersSection({
                         photoUrl={usuario.fotoUrl}
                         size={40}
                       />
-                      <span className={styles.userName}>{usuario.nome}</span>
+                      <span className={styles.userName} title={usuario.nome}>
+                        {usuario.nome}
+                      </span>
                     </div>
                   </td>
                   <td>{tipoLabel[usuario.tipo]}</td>
                   <td>{usuario.cpf}</td>
-                  <td>{usuario.email}</td>
+                  <td className={styles.emailCell} title={usuario.email}>
+                    {usuario.email}
+                  </td>
                   <td>
                     <span
                       className={classNames(

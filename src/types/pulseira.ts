@@ -1,11 +1,11 @@
 export type StatusConexaoPulseira = 'conectada' | 'desconectada';
 
 /**
- * Estado de pareamento da pulseira física com o paciente, visto do app.
- * Espelha parcialmente `Pulseira`/`StatusPulseira` do back-end
- * (../backend-pulseira) — aqui só interessam os dois estados de conexão.
+ * Pulseira de uma pessoa, vista do app. Espelha `Pulseira` do back-end
+ * (../backend-pulseira): `conectada` = status ATIVA e vinculada à pessoa.
  */
 export interface Pulseira {
+  id: string;
   dispositivoId: string;
   status: StatusConexaoPulseira;
   vinculadaEm: string | null;

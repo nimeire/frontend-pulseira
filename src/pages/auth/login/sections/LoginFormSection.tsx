@@ -1,46 +1,63 @@
-import { useState, type FormEvent } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useEffect, useRef, useState, type FormEvent } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Button } from '../../../../components/ui/Button';
 import { FormField } from '../../../../components/form-field/FormField';
 import { PasswordField } from '../../../../components/form-field/PasswordField';
 import { MailIcon } from '../../../../components/icons';
+import { useAuth } from '../../../../hooks/useAuth';
+import { useNotificar } from '../../../../hooks/useNotificar';
+import { mensagemDeErro } from '../../../../services/api';
+import { rotaInicial } from '../../../../utils/perfil';
 import { LIMITES } from '../../../../utils/validacoes';
 import formStyles from '../../../../components/auth-layout/AuthForm.module.css';
 
-// Mock de autenticação: sem back-end, o identificador decide o destino do
-// login (ver AdminPage/PacientePage/ResponsavelPage). Qualquer outro valor
-// volta para a landing.
-const destinoPorIdentificador: Record<string, string> = {
-  admin: '/admin',
-  paciente: '/paciente',
-  responsavel: '/responsavel',
-};
-
 export function LoginFormSection() {
   const navigate = useNavigate();
-  const [identificador, setIdentificador] = useState('');
+  const location = useLocation();
+  const { login } = useAuth();
+  const notificar = useNotificar();
+  const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
+  const [lembrar, setLembrar] = useState(false);
+  const [enviando, setEnviando] = useState(false);
+  const avisouCadastro = useRef(false);
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  const acabouDeCadastrar =
+    (location.state as { cadastrado?: boolean } | null)?.cadastrado === true;
+
+  useEffect(() => {
+    if (acabouDeCadastrar && !avisouCadastro.current) {
+      avisouCadastro.current = true;
+      notificar.sucesso('Conta criada! Entre para continuar.');
+    }
+  }, [acabouDeCadastrar, notificar]);
+
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    const chave = identificador.trim().toLowerCase();
-    navigate(destinoPorIdentificador[chave] ?? '/');
+    setEnviando(true);
+    try {
+      const conta = await login(email, senha, lembrar);
+      navigate(rotaInicial(conta.perfil), { replace: true });
+    } catch (falha) {
+      notificar.erro(mensagemDeErro(falha));
+      setEnviando(false);
+    }
   }
 
   return (
     <>
       <form className={formStyles.form} onSubmit={handleSubmit}>
         <FormField
-          id="login-identificador"
-          label="E-mail ou CPF"
+          id="login-email"
+          label="E-mail"
           icon={MailIcon}
-          type="text"
-          placeholder="E-mail ou CPF"
+          type="email"
+          placeholder="Seu e-mail"
           autoComplete="username"
           maxLength={LIMITES.email}
           required
-          value={identificador}
-          onChange={(event) => setIdentificador(event.target.value)}
+          value={email}
+          onChange={(event) => setEmail(event.target.value)}
         />
 
         <PasswordField
@@ -56,16 +73,18 @@ export function LoginFormSection() {
 
         <div className={formStyles.row}>
           <label className={formStyles.checkboxLabel}>
-            <input type="checkbox" className={formStyles.checkbox} />
+            <input
+              type="checkbox"
+              className={formStyles.checkbox}
+              checked={lembrar}
+              onChange={(event) => setLembrar(event.target.checked)}
+            />
             Lembrar de mim
           </label>
-          <button type="button" className={formStyles.inertLink}>
-            Esqueceu sua senha?
-          </button>
         </div>
 
-        <Button type="submit" className={formStyles.submit}>
-          Entrar
+        <Button type="submit" className={formStyles.submit} disabled={enviando}>
+          {enviando ? 'Entrando…' : 'Entrar'}
         </Button>
       </form>
 

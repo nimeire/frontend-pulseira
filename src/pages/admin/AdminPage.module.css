@@ -15,5 +15,6 @@
 }
 
 .subtitle {
+  text-wrap: balance;
   color: var(--color-text-muted);
 }

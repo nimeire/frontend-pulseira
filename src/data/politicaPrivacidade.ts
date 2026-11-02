@@ -138,6 +138,8 @@ export const secoesPolitica: readonly SecaoPolitica[] = [
           'CPF e data de nascimento, pedidos no formulário de cadastro. O servidor atual ainda não guarda esses dois dados na conta do responsável: ele guarda a data de nascimento apenas da pessoa monitorada, e não guarda CPF.',
           'Endereço: logradouro, número, complemento, bairro, cidade, estado e CEP.',
           'Senha: guardamos apenas uma versão protegida dela (um hash), nunca a senha em si.',
+          'Foto de perfil (opcional): você escolhe, e ela é reduzida para um quadrado pequeno antes de ser guardada. Aparece para as pessoas conectadas com você e pode ser trocada ou removida a qualquer momento.',
+          'O tipo da conta (responsável ou paciente).',
           'Se a conta está ativa e a data em que foi criada.',
         ],
       },
@@ -168,7 +170,7 @@ export const secoesPolitica: readonly SecaoPolitica[] = [
       {
         tipo: 'paragrafo',
         texto:
-          'O site não coleta dados de navegação: não usamos ferramentas de análise de audiência, de rastreamento ou de publicidade. O único dado guardado no seu navegador é a preferência de tema, explicada na seção 9.',
+          'O site não coleta dados de navegação: não usamos ferramentas de análise de audiência, de rastreamento ou de publicidade. O que fica guardado no seu navegador é a preferência de tema e, depois que você entra, os dados do seu login, explicados na seção 9.',
       },
     ],
   },
@@ -367,6 +369,11 @@ export const secoesPolitica: readonly SecaoPolitica[] = [
       {
         tipo: 'paragrafo',
         texto:
+          'Depois de entrar, você mesmo pode corrigir a foto, o telefone, o e-mail e a senha na página "Meu perfil", e mudar o tipo da conta entre responsável e paciente.',
+      },
+      {
+        tipo: 'paragrafo',
+        texto:
           'Envie sua solicitação à equipe pela página de Contato, dizendo quem você é e o que deseja. Podemos pedir informações para confirmar sua identidade, para proteger seus dados. Responderemos em até 15 dias, o prazo máximo que a LGPD prevê para a resposta completa (art. 19).',
       },
       {
@@ -389,7 +396,8 @@ export const secoesPolitica: readonly SecaoPolitica[] = [
         tipo: 'lista',
         itens: [
           'Cookies: o código atual do site não define cookies, e não usamos cookies de rastreamento, de análise ou de publicidade.',
-          'Armazenamento local (localStorage): guardamos no seu navegador apenas a sua preferência de tema, claro ou escuro (chave zelo:theme). Ela não identifica você e não sai do seu dispositivo.',
+          'Armazenamento local (localStorage): guardamos no seu navegador a sua preferência de tema, claro ou escuro (chave zelo:theme). Ela não identifica você e não sai do seu dispositivo.',
+          'Login (chave zelo:sessao): depois que você entra, o site guarda no navegador o seu e-mail e a sua senha apenas codificados (Base64, o que não é criptografia), para enviá-los à API em cada acesso. Sem "Lembrar de mim", isso fica no sessionStorage e some ao fechar a aba; com "Lembrar de mim", fica no localStorage até você clicar em "Sair". Em computador compartilhado, não marque "Lembrar de mim" e saia ao terminar.',
         ],
       },
       {
